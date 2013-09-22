@@ -6,6 +6,9 @@ project( Roop )
 find_package( OpenCV REQUIRED )
 
 add_executable( Roop 
+  src/ExecutableCommand.h
+
+  src/ExecutableCommand.cpp
   src/Roop.cpp
   src/LoadImage.cpp
   src/ErodeImage.cpp

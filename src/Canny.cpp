@@ -7,7 +7,7 @@ const int edgeThresh = 1;
 const int ratio = 3;
 const int kernel_size = 3;
 
-Mat CannyOperator::execute(std::vector<EvalResult> arguments) {
+RoopList CannyOperator::execute(std::vector<EvalResult> arguments) {
   Mat result, detected_edges, src_gray;
 
   Mat src = arguments[0].resultMat;
@@ -25,5 +25,6 @@ Mat CannyOperator::execute(std::vector<EvalResult> arguments) {
   result = Scalar::all(0);
 
   src.copyTo(result, detected_edges);
-  return result;
+
+  return fromMatrix(result);
 }

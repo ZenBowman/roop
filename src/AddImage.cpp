@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-Mat AddImage::execute(std::vector<EvalResult> arguments) {
+RoopList AddImage::execute(RoopList arguments) {
   Mat image = arguments[0].resultMat + arguments[1].resultMat;
-  return image;
+  return fromMatrix(image);
 }

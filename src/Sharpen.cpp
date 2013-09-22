@@ -13,10 +13,10 @@ void sharpen(Mat &input, Mat &output) {
   filter2D(input, output, input.depth(), mask);
 }
 
-Mat Sharpen::execute(std::vector<EvalResult> arguments) {
+RoopList Sharpen::execute(std::vector<EvalResult> arguments) {
   Mat output_image;
   Mat input_image = arguments[0].resultMat;
   sharpen(input_image, output_image);
-  return output_image;
+  return fromMatrix(output_image);
 }
 

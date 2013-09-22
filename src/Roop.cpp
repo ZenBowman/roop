@@ -27,7 +27,7 @@ int main( int argc, char** argv )
     }
     else {
       command = parse_sexp(_command, strlen(_command));
-      commandResult = eval(command);
+      commandResult = eval(command)[0];
       imshow("Result", commandResult.resultMat);
       destroy_sexp(command);
     }

@@ -52,44 +52,36 @@ void init() {
   commands["mult"] = &smultiply;
 }
 
-EvalResult eval(sexp_t* command) {
+RoopList eval(sexp_t* command) {
   elt* current;
   std::string operation;
   std::vector<EvalResult> arguments;
-  EvalResult result;
-  result.resultType = RESULT_MATRIX;
-
+  RoopList result;
+  
   if (command->ty == SEXP_LIST) {
     operation = command->list->val;
-#ifdef VERBOSE_INTERACTIVE
     std::cout << "Found command: " << command->list->val << std::endl;
-#endif
     current = command->list->next;
     while (current != 0) {
       if (current->ty == SEXP_VALUE) {
 
-#ifdef VERBOSE_INTERACTIVE
-	std::cout << "Found argument: " << current->val << std::endl;
-#endif
+        std::cout << "Found argument: " << current->val << std::endl;
 
-	EvalResult er;
-	er.resultString = current->val;
+        EvalResult er;
+        er.resultString = current->val;
 
-#ifdef VERBOSE_INTERACTIVE
-	std::cout << "Added argument " << er.resultString << std::endl;
-#endif
-	er.resultType = RESULT_STRING;
-	arguments.push_back(er);
+        std::cout << "Added argument " << er.resultString << std::endl;
+        er.resultType = RESULT_STRING;
+        arguments.push_back(er);
       } else {
-	arguments.push_back(eval(current));
+        RoopList tempRes = eval(current);
+        arguments.insert(arguments.end(), tempRes.begin(), tempRes.end());
       }
       current = current->next;
     }
     
-#ifdef VERBOSE_INTERACTIVE
     std::cout << "Processing operation " << operation << " with args: "
 	      << std::endl;
-#endif
 
     for (size_t i=0; i<arguments.size(); i++) {
       EvalResult i_er = arguments[i];
@@ -105,7 +97,7 @@ EvalResult eval(sexp_t* command) {
     }
 
     if (commands.find(operation) != commands.end()) {
-      result.resultMat = commands[operation]->execute(arguments);
+      result = commands[operation]->execute(arguments);
     }
   }
   return result;

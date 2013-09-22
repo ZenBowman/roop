@@ -1,7 +1,7 @@
 #include "ExecutableCommand.h"
 using namespace cv;
 
-Mat EnhanceContrast::execute(std::vector<EvalResult> arguments) {
+RoopList EnhanceContrast::execute(std::vector<EvalResult> arguments) {
   Mat image = arguments[0].resultMat.clone();
   int boost = atoi(arguments[1].resultString.c_str());
   
@@ -23,5 +23,5 @@ Mat EnhanceContrast::execute(std::vector<EvalResult> arguments) {
     }
   }
 
-  return image;
+  return fromMatrix(image);
 }

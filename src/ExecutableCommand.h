@@ -14,77 +14,81 @@ struct EvalResult {
   ResultType resultType;
 };
 
+typedef std::vector<EvalResult> RoopList;
+
+RoopList fromMatrix(cv::Mat matrix);
+
 class ExecutableCommand {
  public:
-  virtual cv::Mat execute(std::vector<EvalResult> arguments) = 0;
+  virtual RoopList execute(RoopList arguments) = 0;
 };
 
 class LoadImage: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 class ErodeImage: public ExecutableCommand {
 public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 class DilateImage: public ExecutableCommand {
 public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 
 class SubtractImage: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 class AddImage: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 class DefImage: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 class GetImage: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 class EnhanceContrast: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 class Sharpen: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 
 class Blur: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 class Filter3: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 
 class ToColor: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 class ToGrayScale: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 enum SobelType {
@@ -95,25 +99,25 @@ enum SobelType {
 class SobelOperator: public ExecutableCommand {
  public:
   SobelOperator(SobelType type);
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
  private:
   SobelType type;
 };
 
 class LaplaceOperator: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 
 class CannyOperator: public ExecutableCommand {
  public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 class ScalarMultiply: public ExecutableCommand {
 public:
-  cv::Mat execute(std::vector<EvalResult> arguments);
+  RoopList execute(RoopList arguments);
 };
 
 #endif

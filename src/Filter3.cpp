@@ -4,7 +4,7 @@
 using namespace cv;
 
 
-Mat Filter3::execute(std::vector<EvalResult> arguments) {
+RoopList Filter3::execute(std::vector<EvalResult> arguments) {
   Mat output_image;
   int denominator = 1;
 
@@ -32,6 +32,6 @@ Mat Filter3::execute(std::vector<EvalResult> arguments) {
   
   filter2D(input_image, output_image, input_image.depth(), mask);
 
-  return output_image;
+  return fromMatrix(output_image);
 }
 
