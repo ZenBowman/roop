@@ -7,12 +7,13 @@ find_package( OpenCV REQUIRED )
 
 add_executable( Roop 
   src/ExecutableCommand.h
+  src/RoopCommon.h
 
   src/ExecutableCommand.cpp
+  src/RoopCommon.cpp
   src/Roop.cpp
   src/LoadImage.cpp
-  src/ErodeImage.cpp
-  src/DilateImage.cpp
+  src/MorphologicalOperations.cpp
   src/SubtractImage.cpp
   src/AddImage.cpp
   src/DefGet.cpp

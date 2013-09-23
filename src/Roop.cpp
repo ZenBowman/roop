@@ -1,10 +1,12 @@
 #define VERBOSE_INTERACTIVE 1
-#include "RoopCommon.cpp"
+#include "RoopCommon.h"
 #include <fstream>
+
+using namespace cv;
 
 int main( int argc, char** argv )
 {
-  init();
+  initRoop();
   cv::destroyWindow("win");
   char _command[256];
   sexp_t* command;
@@ -24,7 +26,6 @@ int main( int argc, char** argv )
       }
     }
   }
-  
   
   while(true) {
     std::cout << "Enter command:\t";

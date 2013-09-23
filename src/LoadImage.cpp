@@ -6,3 +6,11 @@ RoopList LoadImage::execute(std::vector<EvalResult> arguments) {
   image = cv::imread(arguments[0].resultString, 1);
   return fromMatrix(image);
 }
+
+RoopList ResizeImage::execute(RoopList arguments) {
+  cv::Mat newImage;
+  cv::Mat original = arguments[0].resultMat;
+  int newSize = atoi(arguments[1].resultString.c_str());
+  cv::resize(original, newImage, cv::Size(newSize, newSize));
+  return fromMatrix(newImage);
+}

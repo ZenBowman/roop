@@ -4,15 +4,15 @@
 #include <map>
 #include <vector>
 #include <opencv2/opencv.hpp>
-#include "sexp.h"
 #include "ExecutableCommand.h"
+#include "RoopCommon.h"
 
 using namespace cv;
 
 const int erosion_type = MORPH_RECT;
 LoadImage loadImage;
-ErodeImage erodeImage;
-DilateImage dilateImage;
+SquareErodeImage erodeImage;
+SquareDilateImage dilateImage;
 SubtractImage subtractImage;
 AddImage addImage;
 DefImage defImage;
@@ -29,12 +29,14 @@ CannyOperator canny;
 ScalarMultiply smultiply;
 ToColor toColor;
 ToBinary toBinary;
+ResizeImage resizeImage;
 
 std::map<std::string, ExecutableCommand*> commands;
 
-void init() {
+void initRoop() {
+  commands["resize"] = &resizeImage;
   commands["load"] = &loadImage;
-  commands["erode"] = &erodeImage;
+  commands["sq-erode"] = &erodeImage;
   commands["subtract"] = &subtractImage;
   commands["add"] = &addImage;
   commands["set"] = &defImage;
@@ -43,7 +45,7 @@ void init() {
   commands["sharpen"] = &sharpen;
   commands["blur"] = &blurOp;
   commands["filter"] = &filter3;
-  commands["dilate"] = &dilateImage;
+  commands["sq-dilate"] = &dilateImage;
   commands["make-gray"] = &toGrayScale;
   commands["make-color"] = &toColor;
   commands["sobel"] = &sobel;

@@ -5,7 +5,8 @@ using namespace cv;
 const int DEFAULT_STRUCTURING_ELEMENT_TYPE = MORPH_RECT;
 const int DEFAULT_EROSION_SIZE = 3;
 
-RoopList ErodeImage::execute(std::vector<EvalResult> arguments) {
+
+RoopList SquareErodeImage::execute(std::vector<EvalResult> arguments) {
   size_t argc = arguments.size();
   Mat image;
   int erosion_size = DEFAULT_EROSION_SIZE;
@@ -22,7 +23,7 @@ RoopList ErodeImage::execute(std::vector<EvalResult> arguments) {
   return fromMatrix(image);
 }
 
-RoopList DilateImage::execute(std::vector<EvalResult> arguments) {
+RoopList SquareDilateImage::execute(std::vector<EvalResult> arguments) {
   size_t argc = arguments.size();
   Mat image;
   int dilation_size = DEFAULT_EROSION_SIZE;

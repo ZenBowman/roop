@@ -23,17 +23,22 @@ class ExecutableCommand {
   virtual RoopList execute(RoopList arguments) = 0;
 };
 
+class ResizeImage: public ExecutableCommand {
+public:
+  RoopList execute(RoopList arguments);
+};
+
 class LoadImage: public ExecutableCommand {
  public:
   RoopList execute(RoopList arguments);
 };
 
-class ErodeImage: public ExecutableCommand {
+class SquareErodeImage: public ExecutableCommand {
 public:
   RoopList execute(RoopList arguments);
 };
 
-class DilateImage: public ExecutableCommand {
+class SquareDilateImage: public ExecutableCommand {
 public:
   RoopList execute(RoopList arguments);
 };

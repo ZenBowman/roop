@@ -1,0 +1,3 @@
+(set lcoins (load ../images/coins.jpeg))
+(set coins (resize (get lcoins) 600))
+(set bcoins (binarize (make-gray (get coins)) 200))
