@@ -1,0 +1,4 @@
+(set lena (load ../images/lena-512-x-512.bmp))
+(display)
+(erode (get lena) 5 3)
+(display)

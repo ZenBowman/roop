@@ -28,6 +28,7 @@ LaplaceOperator laplace;
 CannyOperator canny;
 ScalarMultiply smultiply;
 ToColor toColor;
+ToBinary toBinary;
 
 std::map<std::string, ExecutableCommand*> commands;
 
@@ -50,6 +51,7 @@ void init() {
   commands["laplace"] = &laplace;
   commands["canny"] = &canny;
   commands["mult"] = &smultiply;
+  commands["binarize"] = &toBinary;
 }
 
 RoopList eval(sexp_t* command) {

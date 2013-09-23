@@ -1,0 +1,18 @@
+(subtract (dilate (get current-frame) 5 3) (erode (get current-frame) 5 3))
+
+(filter (get current-frame) 1 1 1 1 1 1 1 1 1 15)
+
+(sobel (blur (get frame-10) 3))
+
+
+
+(subtract (get current-frame) (get frame-10))
+
+(blur (blur (add (make-color (mult (sobel (blur (make-gray (get current-frame)) 11)) 5.0f)) (mult (get current-frame) 0.6f)) 3) 3)
+
+
+(add (get current-frame) (get frame-10))
+
+
+(sobel (blur (get current-frame) 3))
+(get current-frame)

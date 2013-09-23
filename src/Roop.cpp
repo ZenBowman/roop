@@ -1,5 +1,6 @@
 #define VERBOSE_INTERACTIVE 1
 #include "RoopCommon.cpp"
+#include <fstream>
 
 int main( int argc, char** argv )
 {
@@ -8,10 +9,23 @@ int main( int argc, char** argv )
   char _command[256];
   sexp_t* command;
   EvalResult commandResult;
-  std::string foo;
   
   namedWindow("Result", CV_WINDOW_AUTOSIZE);
 
+  if (argc > 1) {
+    char *initScriptFilename = argv[1];
+    std::cout << "Recieved initializer file: " << initScriptFilename << std::endl;
+    // Load initializer commands
+    std::ifstream inputFile(initScriptFilename);
+    while (inputFile.getline(_command, 256)) {
+      if (strcmp("(display)", _command) != 0) {
+        command = parse_sexp(_command, strlen(_command));
+        eval(command);
+      }
+    }
+  }
+  
+  
   while(true) {
     std::cout << "Enter command:\t";
     std::cin.getline(_command, 256);
@@ -23,12 +37,12 @@ int main( int argc, char** argv )
       break;
     }
     else if (strcmp("(display)", _command) == 0) {
+      imshow("Result", commandResult.resultMat);
       waitKey(0);
     }
     else {
       command = parse_sexp(_command, strlen(_command));
       commandResult = eval(command)[0];
-      imshow("Result", commandResult.resultMat);
       destroy_sexp(command);
     }
   }

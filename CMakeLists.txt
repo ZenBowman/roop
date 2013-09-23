@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(LIBSEXP_SRC /Users/prasansamtani/dev/sexpr-1.3/src)
+set(LIBSEXP_SRC /Users/prasan.samtani/dev/sexpr-1.3/src)
 
 project( Roop )
 find_package( OpenCV REQUIRED )
@@ -20,7 +20,7 @@ add_executable( Roop
   src/Sharpen.cpp
   src/Blur.cpp
   src/Filter3.cpp
-  src/ToGrayScale.cpp
+  src/ColorConversions.cpp
   src/Derivative.cpp
   src/Canny.cpp
   src/Multiply.cpp

@@ -120,4 +120,9 @@ public:
   RoopList execute(RoopList arguments);
 };
 
+class ToBinary: public ExecutableCommand {
+public:
+    RoopList execute(RoopList arguments);
+};
+
 #endif

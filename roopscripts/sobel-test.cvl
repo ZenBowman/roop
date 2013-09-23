@@ -1,0 +1,5 @@
+(set lena (load ../images/lena-512-x-512.bmp))
+(filter (get lena) -2 0 2 -2 0 2 -2 0 2 1)
+(display)
+(filter (get lena) 1 1 1 1 1 1 1 1 1 9)
+(display)
