@@ -33,6 +33,18 @@ ResizeImage resizeImage;
 
 std::map<std::string, ExecutableCommand*> commands;
 
+const char *DISPLAY_COMMAND = "(display)";
+const char *EXIT_COMMAND = "(exit)";
+
+
+bool isExitCommand(char *lineData) {
+  return (strcmp(EXIT_COMMAND, lineData) == 0);
+}
+
+bool isDisplayCommand(char *lineData) {
+  return (strcmp(DISPLAY_COMMAND, lineData) == 0);
+}
+
 void initRoop() {
   commands["resize"] = &resizeImage;
   commands["load"] = &loadImage;
@@ -56,6 +68,7 @@ void initRoop() {
   commands["binarize"] = &toBinary;
 }
 
+
 RoopList eval(sexp_t* command) {
   elt* current;
   std::string operation;
@@ -64,7 +77,12 @@ RoopList eval(sexp_t* command) {
   
   if (command->ty == SEXP_LIST) {
     operation = command->list->val;
-    std::cout << "Found command: " << command->list->val << std::endl;
+
+    if (commands.find(operation) == commands.end()) {
+      std::cout << "Invalid operator " << operation << "found." << std::endl;
+      return result;
+    }
+    
     current = command->list->next;
     while (current != 0) {
       if (current->ty == SEXP_VALUE) {
@@ -79,6 +97,9 @@ RoopList eval(sexp_t* command) {
         arguments.push_back(er);
       } else {
         RoopList tempRes = eval(current);
+        if (tempRes.size() == 0) {
+          return result;  // Some invalid operation found
+        }
         arguments.insert(arguments.end(), tempRes.begin(), tempRes.end());
       }
       current = current->next;
@@ -90,13 +111,11 @@ RoopList eval(sexp_t* command) {
     for (size_t i=0; i<arguments.size(); i++) {
       EvalResult i_er = arguments[i];
 
-#ifdef VERBOSE_INTERACTIVE
       if (i_er.resultType == RESULT_STRING) {
-	std::cout << "string = " << i_er.resultString << std::endl;
+        std::cout << "string = " << i_er.resultString << std::endl;
       } else {
-	std::cout << "MATRIX" << std::endl;
+        std::cout << "MATRIX" << std::endl;
       }
-#endif
 
     }
 

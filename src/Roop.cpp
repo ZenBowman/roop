@@ -1,8 +1,29 @@
 #define VERBOSE_INTERACTIVE 1
 #include "RoopCommon.h"
 #include <fstream>
+#include <string>
 
 using namespace cv;
+
+
+bool isCommentOrWhitespace(char *lineData) {
+  std::string line = lineData;
+  bool allWhitespace = true;
+  for (std::string::iterator ss = line.begin(); ss != line.end(); ss++) {
+    if (*ss == ';') {
+      return true; //is comment
+    }
+    else if (*ss != ' ') {
+      allWhitespace = false;
+      break;
+    }
+  }
+  return allWhitespace;
+}
+
+bool isSkippableLine(char *lineData) {
+  return (isCommentOrWhitespace(lineData) || isDisplayCommand(lineData));
+}
 
 int main( int argc, char** argv )
 {
@@ -19,32 +40,46 @@ int main( int argc, char** argv )
     std::cout << "Recieved initializer file: " << initScriptFilename << std::endl;
     // Load initializer commands
     std::ifstream inputFile(initScriptFilename);
+    int line_number = 0;
     while (inputFile.getline(_command, 256)) {
-      if (strcmp("(display)", _command) != 0) {
+      
+      if (!isSkippableLine(_command)) {
         command = parse_sexp(_command, strlen(_command));
-        eval(command);
+        if (command == NULL) {
+          std::cout << "Invalid s-expression on line " << line_number << " - skipping line" << std::endl;
+        } else {
+          eval(command);
+        }
+        line_number ++;
       }
     }
+    
   }
   
   while(true) {
     std::cout << "Enter command:\t";
     std::cin.getline(_command, 256);
     std::cout << "COMMAND = [" << _command << "]" << std::endl;
-    if (strcmp("", _command) == 0) {
-      return 1;
-    }
-    else if (strcmp("(exit)", _command) == 0) {
+    
+    if (isExitCommand(_command)) {
       break;
     }
-    else if (strcmp("(display)", _command) == 0) {
+    else if (isDisplayCommand(_command)) {
       imshow("Result", commandResult.resultMat);
       waitKey(0);
     }
     else {
       command = parse_sexp(_command, strlen(_command));
-      commandResult = eval(command)[0];
-      destroy_sexp(command);
+      if (command == NULL) {
+        std::cout << "Invalid s-expression" << std::endl;
+      }
+      else {
+        RoopList result = eval(command);
+        if (result.size() > 0) {
+          commandResult = eval(command)[0];
+        }
+        destroy_sexp(command);
+      }
     }
   }
 

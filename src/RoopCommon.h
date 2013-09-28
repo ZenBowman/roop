@@ -9,4 +9,7 @@
 RoopList eval(sexp_t* command);
 void initRoop();
 
+bool isExitCommand(char *lineData);
+bool isDisplayCommand(char *lineData);
+
 #endif
