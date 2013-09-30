@@ -1,5 +1,9 @@
 (set lena (load ../images/lena-512-x-512.bmp))
-(set glena (make-gray (get lena)))
-(set blena (binarize (get glena) 120))
-(set elena (sq-erode (get blena) 3))
-(set elena2 (sq-erode (get blena) 9))
+(set glena (make-gray lena))
+(set blena (binarize glena 120))
+(set elena (sq-erode blena 3))
+
+;; Square eroded lena
+(set elena2 (sq-erode blena 9))
+
+(set elena3 (sq-erode (binarize glena 120) 3))

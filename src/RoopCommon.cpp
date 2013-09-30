@@ -30,8 +30,12 @@ ScalarMultiply smultiply;
 ToColor toColor;
 ToBinary toBinary;
 ResizeImage resizeImage;
+RemoveBackgroundGrabcut removeBackgroundGrabcut;
+GetForegroundMaskGrabcut getForegroundMaskGrabcut;
 
 std::map<std::string, ExecutableCommand*> commands;
+bool imageExists(std::string imageName);
+Mat retrieveImage(std::string imageName);
 
 const char *DISPLAY_COMMAND = "(display)";
 const char *EXIT_COMMAND = "(exit)";
@@ -49,7 +53,12 @@ void initRoop() {
   commands["resize"] = &resizeImage;
   commands["load"] = &loadImage;
   commands["sq-erode"] = &erodeImage;
+  commands["erode"] = &erodeImage; 
   commands["subtract"] = &subtractImage;
+
+  //  commands["not"]= &notImage;
+  //  commands["and"] = &andImage;
+
   commands["add"] = &addImage;
   commands["set"] = &defImage;
   commands["get"] = &getImage;
@@ -58,6 +67,7 @@ void initRoop() {
   commands["blur"] = &blurOp;
   commands["filter"] = &filter3;
   commands["sq-dilate"] = &dilateImage;
+  commands["dilate"] = &dilateImage;
   commands["make-gray"] = &toGrayScale;
   commands["make-color"] = &toColor;
   commands["sobel"] = &sobel;
@@ -66,6 +76,8 @@ void initRoop() {
   commands["canny"] = &canny;
   commands["mult"] = &smultiply;
   commands["binarize"] = &toBinary;
+  commands["remove-background"] = &removeBackgroundGrabcut;
+  commands["get-foreground-mask"] = &getForegroundMaskGrabcut;
 }
 
 
@@ -86,14 +98,20 @@ RoopList eval(sexp_t* command) {
     current = command->list->next;
     while (current != 0) {
       if (current->ty == SEXP_VALUE) {
-
         std::cout << "Found argument: " << current->val << std::endl;
 
         EvalResult er;
         er.resultString = current->val;
+	if (imageExists(er.resultString)) {
+	  er.resultMat = retrieveImage(er.resultString);
+	  er.resultType = RESULT_MATRIX;
+	  std::cout << "Added matrix argument " << er.resultString << std::endl;
+	
+	} else {
+	  er.resultType = RESULT_STRING;
+	  std::cout << "Added literal argument " << er.resultString << std::endl;
+	}
 
-        std::cout << "Added argument " << er.resultString << std::endl;
-        er.resultType = RESULT_STRING;
         arguments.push_back(er);
       } else {
         RoopList tempRes = eval(current);

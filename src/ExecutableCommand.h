@@ -130,4 +130,16 @@ public:
     RoopList execute(RoopList arguments);
 };
 
+class GetForegroundMaskGrabcut: public ExecutableCommand {
+public:
+    RoopList execute(RoopList arguments);
+};
+
+class RemoveBackgroundGrabcut: public ExecutableCommand {
+public:
+    RoopList execute(RoopList arguments);
+};
+
+
+
 #endif
