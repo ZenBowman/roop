@@ -11,8 +11,8 @@ using namespace cv;
 
 const int erosion_type = MORPH_RECT;
 LoadImage loadImage;
-SquareErodeImage erodeImage;
-SquareDilateImage dilateImage;
+ErodeImage erodeImage;
+DilateImage dilateImage;
 SubtractImage subtractImage;
 AddImage addImage;
 DefImage defImage;
@@ -32,6 +32,8 @@ ToBinary toBinary;
 ResizeImage resizeImage;
 RemoveBackgroundGrabcut removeBackgroundGrabcut;
 GetForegroundMaskGrabcut getForegroundMaskGrabcut;
+InvertImage invertImage;
+AndImage andImage;
 
 std::map<std::string, ExecutableCommand*> commands;
 bool imageExists(std::string imageName);
@@ -52,13 +54,10 @@ bool isDisplayCommand(char *lineData) {
 void initRoop() {
   commands["resize"] = &resizeImage;
   commands["load"] = &loadImage;
-  commands["sq-erode"] = &erodeImage;
   commands["erode"] = &erodeImage; 
   commands["subtract"] = &subtractImage;
-
-  //  commands["not"]= &notImage;
-  //  commands["and"] = &andImage;
-
+  commands["invert"] = &invertImage;
+  commands["and"] = &andImage;
   commands["add"] = &addImage;
   commands["set"] = &defImage;
   commands["get"] = &getImage;
@@ -66,7 +65,6 @@ void initRoop() {
   commands["sharpen"] = &sharpen;
   commands["blur"] = &blurOp;
   commands["filter"] = &filter3;
-  commands["sq-dilate"] = &dilateImage;
   commands["dilate"] = &dilateImage;
   commands["make-gray"] = &toGrayScale;
   commands["make-color"] = &toColor;

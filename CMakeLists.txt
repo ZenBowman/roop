@@ -14,8 +14,7 @@ add_executable( Roop
   src/Roop.cpp
   src/LoadImage.cpp
   src/MorphologicalOperations.cpp
-  src/SubtractImage.cpp
-  src/AddImage.cpp
+  src/LogicalOperations.cpp
   src/DefGet.cpp
   src/EnhanceContrast.cpp
   src/Sharpen.cpp

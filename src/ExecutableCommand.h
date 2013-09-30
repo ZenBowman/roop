@@ -33,12 +33,12 @@ class LoadImage: public ExecutableCommand {
   RoopList execute(RoopList arguments);
 };
 
-class SquareErodeImage: public ExecutableCommand {
+class ErodeImage: public ExecutableCommand {
 public:
   RoopList execute(RoopList arguments);
 };
 
-class SquareDilateImage: public ExecutableCommand {
+class DilateImage: public ExecutableCommand {
 public:
   RoopList execute(RoopList arguments);
 };
@@ -140,6 +140,14 @@ public:
     RoopList execute(RoopList arguments);
 };
 
+class InvertImage: public ExecutableCommand {
+public:
+    RoopList execute(RoopList arguments);
+};
 
+class AndImage: public ExecutableCommand {
+public:
+    RoopList execute(RoopList arguments);
+};
 
 #endif
