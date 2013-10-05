@@ -1,14 +1,22 @@
 cmake_minimum_required(VERSION 2.8)
 
-set(LIBSEXP_SRC /home/zenbowman/dev/externaltools/sexpr_1.2.1/src/)
+set(LIBSEXP_SRC thirdparty/sexpr-1.2.1/)
 
 project( Roop )
 find_package( OpenCV REQUIRED )
 
 add_executable( Roop 
+  thirdparty/sexpr-1.2.1/cstring.c
+  thirdparty/sexpr-1.2.1/event_temp.c
+  thirdparty/sexpr-1.2.1/faststack.c
+  thirdparty/sexpr-1.2.1/parser.c
+  thirdparty/sexpr-1.2.1/sexp.c
+  thirdparty/sexpr-1.2.1/sexp_memory.c
+  thirdparty/sexpr-1.2.1/sexp_ops.c
+  thirdparty/sexpr-1.2.1/sexp_vis.c
+
   src/ExecutableCommand.h
   src/RoopCommon.h
-
   src/ExecutableCommand.cpp
   src/RoopCommon.cpp
   src/Roop.cpp
@@ -30,6 +38,5 @@ add_executable( Roop
 include_directories(${LIBSEXP_SRC})
 
 target_link_libraries(Roop
-  ${LIBSEXP_SRC}/libsexp.a
   ${OpenCV_LIBS} 
 )
