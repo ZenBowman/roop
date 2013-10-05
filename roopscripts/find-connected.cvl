@@ -1,0 +1,8 @@
+(set lcoins (load ../images/bin-coins.jpeg))
+(set ccmask (erode (dilate lcoins 40 ellipse) 40 ellipse))
+(find-connected (binarize (make-gray ccmask) 10))
+(display)
+
+(set cdmask (dilate (erode ccmask 40 ellipse) 40 ellipse))
+(find-connected (binarize (make-gray cdmask) 10))
+(display)

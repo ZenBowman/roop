@@ -36,6 +36,7 @@ GetForegroundMaskGrabcut getForegroundMaskGrabcut;
 InvertImage invertImage;
 AndImage andImage;
 SaveImage saveImage;
+FindConnected findConnected;
 
 std::auto_ptr<RoopMachine> defaultMachine;
 
@@ -90,6 +91,7 @@ RoopMachine::RoopMachine() : exceptionBitSet(false)
   commands["remove-background"] = &removeBackgroundGrabcut;
   commands["get-foreground-mask"] = &getForegroundMaskGrabcut;
   commands["save"] = &saveImage;
+  commands["find-connected"] = &findConnected;
 }
 
 RoopList RoopMachine::eval(sexp_t* command) {

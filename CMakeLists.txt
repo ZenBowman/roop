@@ -34,6 +34,7 @@ add_executable( Roop
   src/Canny.cpp
   src/Multiply.cpp
   src/Segmentation.cpp
+  src/ConnectedComponents.cpp
 )
 
 include_directories(${LIBSEXP_SRC})
