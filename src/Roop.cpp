@@ -52,7 +52,11 @@ int main( int argc, char** argv )
         } else if (isDisplayCommand(_command)) {
 	  imshow(lastCommand.c_str(), commandResult.resultMat);
 	  shouldDisplay = true;
-	} else {
+	} else if (isExitCommand(_command)) {
+	  std::cout << "Exit found" << std::endl;
+	  return 0;
+	}
+	else {
 	  RoopList result = eval(command);
 	  if (result.size() > 0) {
 	    commandResult = eval(command)[0];

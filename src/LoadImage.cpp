@@ -14,3 +14,10 @@ RoopList ResizeImage::execute(RoopMachine &machine, RoopList arguments) {
   cv::resize(original, newImage, cv::Size(newSize, newSize));
   return fromMatrix(newImage);
 }
+
+RoopList SaveImage::execute(RoopMachine &machine, RoopList arguments) {
+  cv::Mat image = arguments[0].resultMat;
+  std::string filename = arguments[1].resultString;
+  cv::imwrite(filename, image);
+  return fromMatrix(image);
+}

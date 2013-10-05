@@ -1,0 +1,3 @@
+(set lena (load ../images/lena-512-x-512.bmp))
+(save (canny (get lena) 50) ../images/lena-edges.jpg)
+(exit)

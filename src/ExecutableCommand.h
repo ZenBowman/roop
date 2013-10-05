@@ -152,4 +152,10 @@ public:
     RoopList execute(RoopMachine &machine, RoopList arguments);
 };
 
+class SaveImage: public ExecutableCommand {
+public:
+    RoopList execute(RoopMachine &machine, RoopList arguments);
+};
+
+
 #endif

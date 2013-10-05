@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include <map>
 #include <vector>
+#include <memory>
 #include <opencv2/opencv.hpp>
 #include "ExecutableCommand.h"
 #include "RoopCommon.h"
@@ -34,11 +35,12 @@ RemoveBackgroundGrabcut removeBackgroundGrabcut;
 GetForegroundMaskGrabcut getForegroundMaskGrabcut;
 InvertImage invertImage;
 AndImage andImage;
+SaveImage saveImage;
 
 std::auto_ptr<RoopMachine> defaultMachine;
 
 bool isExitCommand(char *lineData) {
-  return (strcmp("exit", lineData) == 0);
+  return ((strcmp("exit", lineData) == 0) || (strcmp("(exit)", lineData) == 0));
 }
 
 bool isDisplayCommand(char *lineData) {
@@ -87,6 +89,7 @@ RoopMachine::RoopMachine() : exceptionBitSet(false)
   commands["binarize"] = &toBinary;
   commands["remove-background"] = &removeBackgroundGrabcut;
   commands["get-foreground-mask"] = &getForegroundMaskGrabcut;
+  commands["save"] = &saveImage;
 }
 
 RoopList RoopMachine::eval(sexp_t* command) {
