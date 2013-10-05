@@ -28,3 +28,6 @@ Running examples:
   You should see the Canny edge detection algorithm in action
 
 
+Attribution:
+------------
+This project uses Matt Sotille's excellent s-expression parser: http://syntacticsalt.com/software/
