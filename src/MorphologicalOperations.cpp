@@ -17,7 +17,7 @@ int getStructuringElementTypeFromString(std::string elemType) {
 }
 
 
-RoopList ErodeImage::execute(std::vector<EvalResult> arguments) {
+RoopList ErodeImage::execute(RoopMachine &machine, RoopList arguments) {
   size_t argc = arguments.size();
   Mat image;
   int erosion_size = DEFAULT_EROSION_SIZE;
@@ -35,7 +35,7 @@ RoopList ErodeImage::execute(std::vector<EvalResult> arguments) {
   return fromMatrix(image);
 }
 
-RoopList DilateImage::execute(std::vector<EvalResult> arguments) {
+RoopList DilateImage::execute(RoopMachine &machine, RoopList arguments) {
   size_t argc = arguments.size();
   Mat image;
   int dilation_size = DEFAULT_EROSION_SIZE;

@@ -78,11 +78,12 @@ void initRoop() {
   commands["get-foreground-mask"] = &getForegroundMaskGrabcut;
 }
 
+RoopMachine machine;
 
 RoopList eval(sexp_t* command) {
   elt* current;
   std::string operation;
-  std::vector<EvalResult> arguments;
+  RoopList arguments;
   RoopList result;
   
   if (command->ty == SEXP_LIST) {
@@ -136,7 +137,7 @@ RoopList eval(sexp_t* command) {
     }
 
     if (commands.find(operation) != commands.end()) {
-      result = commands[operation]->execute(arguments);
+      result = commands[operation]->execute(machine, arguments);
     }
   }
   return result;

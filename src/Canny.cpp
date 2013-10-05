@@ -7,7 +7,7 @@ const int edgeThresh = 1;
 const int ratio = 3;
 const int kernel_size = 3;
 
-RoopList CannyOperator::execute(std::vector<EvalResult> arguments) {
+RoopList CannyOperator::execute(RoopMachine &machine, RoopList arguments) {
   Mat result, detected_edges, src_gray;
 
   Mat src = arguments[0].resultMat;

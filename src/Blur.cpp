@@ -5,7 +5,7 @@
 
 using namespace cv;
 
-RoopList Blur::execute(RoopList arguments) {
+RoopList Blur::execute(RoopMachine &machine, RoopList arguments) {
   Mat blurred_image;
   Mat original_image = arguments[0].resultMat;
   int blur_size = atoi(arguments[1].resultString.c_str());

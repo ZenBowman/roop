@@ -6,7 +6,7 @@ int scale = 1;
 int delta = 0;
 int ddepth = CV_16S;
 
-RoopList LaplaceOperator::execute(std::vector<EvalResult> arguments) {
+RoopList LaplaceOperator::execute(RoopMachine &machine, RoopList arguments) {
   Mat result, tempr;
   Mat src_gray = arguments[0].resultMat;
   int kernel_size = atoi(arguments[1].resultString.c_str());
@@ -19,7 +19,7 @@ RoopList LaplaceOperator::execute(std::vector<EvalResult> arguments) {
 SobelOperator::SobelOperator(SobelType _type): type(_type) {
 }
 
-RoopList SobelOperator::execute(std::vector<EvalResult> arguments) {
+RoopList SobelOperator::execute(RoopMachine &machine, RoopList arguments) {
   Mat grad_x, grad_y, abs_grad_x, abs_grad_y;
   Mat grad;
   Mat src_gray = arguments[0].resultMat;

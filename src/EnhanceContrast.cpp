@@ -1,7 +1,7 @@
 #include "ExecutableCommand.h"
 using namespace cv;
 
-RoopList EnhanceContrast::execute(std::vector<EvalResult> arguments) {
+RoopList EnhanceContrast::execute(RoopMachine &machine, RoopList arguments) {
   Mat image = arguments[0].resultMat.clone();
   int boost = atoi(arguments[1].resultString.c_str());
   

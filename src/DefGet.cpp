@@ -5,14 +5,14 @@ using namespace cv;
 
 std::map<std::string, Mat> savedImages;
 
-RoopList DefImage::execute(RoopList arguments) {
+RoopList DefImage::execute(RoopMachine &machine, RoopList arguments) {
   std::string name = arguments[0].resultString;
   Mat image = arguments[1].resultMat;
   savedImages[name] = image;
   return fromMatrix(image);
 }
 
-RoopList GetImage::execute(std::vector<EvalResult> arguments) {
+RoopList GetImage::execute(RoopMachine &machine, RoopList arguments) {
   std::string name = arguments[0].resultString;
   return fromMatrix(savedImages[name]);
 }

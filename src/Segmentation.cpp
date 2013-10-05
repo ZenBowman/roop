@@ -14,7 +14,7 @@ Mat removeBackgroundFromImage(Mat image, int backgroundBorder) {
   return mask > 2;
 }
 
-RoopList GetForegroundMaskGrabcut::execute(RoopList arguments) {
+RoopList GetForegroundMaskGrabcut::execute(RoopMachine &machine, RoopList arguments) {
   Mat image = arguments[0].resultMat;
   int numBorderPixels = DEFAULT_BORDER;
   if (arguments.size() >= 2){
@@ -24,7 +24,7 @@ RoopList GetForegroundMaskGrabcut::execute(RoopList arguments) {
   return fromMatrix(result);
 }
 
-RoopList RemoveBackgroundGrabcut::execute(RoopList arguments){
+RoopList RemoveBackgroundGrabcut::execute(RoopMachine &machine, RoopList arguments){
   Mat image = arguments[0].resultMat;
   int numBorderPixels = DEFAULT_BORDER;
   if (arguments.size() >= 2){

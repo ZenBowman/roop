@@ -4,7 +4,7 @@
 using namespace cv;
 
 
-RoopList Filter3::execute(std::vector<EvalResult> arguments) {
+RoopList Filter3::execute(RoopMachine &machine, RoopList arguments) {
   Mat output_image;
   int denominator = 1;
 

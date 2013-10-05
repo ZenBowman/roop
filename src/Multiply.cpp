@@ -2,7 +2,7 @@
 
 using namespace cv;
 
-RoopList ScalarMultiply::execute(std::vector<EvalResult> arguments) {
+RoopList ScalarMultiply::execute(RoopMachine &machine, RoopList arguments) {
   Mat image = arguments[0].resultMat;
   float scaleFactor = atof(arguments[1].resultString.c_str());
   Mat result = image * scaleFactor;
