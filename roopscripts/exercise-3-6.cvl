@@ -1,5 +1,6 @@
 (set lcoins (load ../images/coins.jpeg))
 (set coins (resize (get lcoins) 600))
+(display)
 
 (set fmask (get-foreground-mask coins))
 (set bfmask (blur fmask 5))
@@ -11,3 +12,9 @@
 (set not-quarter (invert quarter))
 
 (set penny (erode (and fmask not-quarter) 4))
+
+(and coins penny)
+(display)
+
+(and coins quarter)
+(display)
