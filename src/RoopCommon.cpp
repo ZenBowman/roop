@@ -35,26 +35,37 @@ GetForegroundMaskGrabcut getForegroundMaskGrabcut;
 InvertImage invertImage;
 AndImage andImage;
 
-std::map<std::string, ExecutableCommand*> commands;
-bool imageExists(std::string imageName);
-Mat retrieveImage(std::string imageName);
-
-const char *DISPLAY_COMMAND = "(display)";
-const char *EXIT_COMMAND = "(exit)";
-
+std::auto_ptr<RoopMachine> defaultMachine;
 
 bool isExitCommand(char *lineData) {
-  return (strcmp(EXIT_COMMAND, lineData) == 0);
+  return (strcmp("exit", lineData) == 0);
 }
 
 bool isDisplayCommand(char *lineData) {
-  return (strcmp(DISPLAY_COMMAND, lineData) == 0);
+  return ((strcmp("display", lineData) == 0) || (strcmp("(display)", lineData) == 0));
 }
 
 void initRoop() {
+  defaultMachine = std::auto_ptr<RoopMachine>(new RoopMachine());
+}
+
+RoopList eval(sexp_t* command) {
+  return defaultMachine->eval(command);
+}
+
+bool RoopMachine::imageExists(std::string imageName) {
+  return (savedImages.find(imageName) != savedImages.end());
+}
+
+Mat RoopMachine::retrieveImage(std::string imageName) {
+  return savedImages[imageName];
+}
+
+RoopMachine::RoopMachine() : exceptionBitSet(false)
+{
   commands["resize"] = &resizeImage;
   commands["load"] = &loadImage;
-  commands["erode"] = &erodeImage; 
+  commands["erode"] = &erodeImage;
   commands["subtract"] = &subtractImage;
   commands["invert"] = &invertImage;
   commands["and"] = &andImage;
@@ -78,9 +89,7 @@ void initRoop() {
   commands["get-foreground-mask"] = &getForegroundMaskGrabcut;
 }
 
-RoopMachine machine;
-
-RoopList eval(sexp_t* command) {
+RoopList RoopMachine::eval(sexp_t* command) {
   elt* current;
   std::string operation;
   RoopList arguments;
@@ -88,9 +97,12 @@ RoopList eval(sexp_t* command) {
   
   if (command->ty == SEXP_LIST) {
     operation = command->list->val;
-
+    
     if (commands.find(operation) == commands.end()) {
-      std::cout << "Invalid operator " << operation << "found." << std::endl;
+      std::stringstream exception;
+      exception << "Invalid operator " << operation << "found." << std::endl;
+      exception >> exceptionMessage;
+      exceptionBitSet = true;
       return result;
     }
     
@@ -98,23 +110,22 @@ RoopList eval(sexp_t* command) {
     while (current != 0) {
       if (current->ty == SEXP_VALUE) {
         std::cout << "Found argument: " << current->val << std::endl;
-
+        
         EvalResult er;
         er.resultString = current->val;
-	if (imageExists(er.resultString)) {
-	  er.resultMat = retrieveImage(er.resultString);
-	  er.resultType = RESULT_MATRIX;
-	  std::cout << "Added matrix argument " << er.resultString << std::endl;
-	
-	} else {
-	  er.resultType = RESULT_STRING;
-	  std::cout << "Added literal argument " << er.resultString << std::endl;
-	}
-
+        if (imageExists(er.resultString)) {
+          er.resultMat = retrieveImage(er.resultString);
+          er.resultType = RESULT_MATRIX;
+          std::cout << "Added matrix argument " << er.resultString << std::endl;
+        } else {
+          er.resultType = RESULT_STRING;
+          std::cout << "Added literal argument " << er.resultString << std::endl;
+        }
+        
         arguments.push_back(er);
       } else {
         RoopList tempRes = eval(current);
-        if (tempRes.size() == 0) {
+        if (exceptionBitSet) {
           return result;  // Some invalid operation found
         }
         arguments.insert(arguments.end(), tempRes.begin(), tempRes.end());
@@ -122,22 +133,21 @@ RoopList eval(sexp_t* command) {
       current = current->next;
     }
     
-    std::cout << "Processing operation " << operation << " with args: "
-	      << std::endl;
-
+    std::cout << "Processing operation " << operation << " with args: " << std::endl;
+    
     for (size_t i=0; i<arguments.size(); i++) {
       EvalResult i_er = arguments[i];
-
+      
       if (i_er.resultType == RESULT_STRING) {
         std::cout << "string = " << i_er.resultString << std::endl;
       } else {
         std::cout << "MATRIX" << std::endl;
       }
-
+      
     }
-
+    
     if (commands.find(operation) != commands.end()) {
-      result = commands[operation]->execute(machine, arguments);
+      result = commands[operation]->execute(*this, arguments);
     }
   }
   return result;

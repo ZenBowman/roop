@@ -1,26 +1,19 @@
 #include "ExecutableCommand.h"
 #include <map>
+#include "RoopCommon.h"
 
 using namespace cv;
-
-std::map<std::string, Mat> savedImages;
 
 RoopList DefImage::execute(RoopMachine &machine, RoopList arguments) {
   std::string name = arguments[0].resultString;
   Mat image = arguments[1].resultMat;
-  savedImages[name] = image;
+  machine.savedImages[name] = image;
   return fromMatrix(image);
 }
 
 RoopList GetImage::execute(RoopMachine &machine, RoopList arguments) {
   std::string name = arguments[0].resultString;
-  return fromMatrix(savedImages[name]);
+  return fromMatrix(machine.savedImages[name]);
 }
 
-bool imageExists(std::string imageName) {
-  return (savedImages.find(imageName) != savedImages.end());
-}
 
-Mat retrieveImage(std::string imageName) {
-  return savedImages[imageName];
-}
