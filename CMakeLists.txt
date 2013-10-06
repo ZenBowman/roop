@@ -35,6 +35,7 @@ add_executable( Roop
   src/Multiply.cpp
   src/Segmentation.cpp
   src/ConnectedComponents.cpp
+  src/ShapeAnalysis.cpp
 )
 
 include_directories(${LIBSEXP_SRC})

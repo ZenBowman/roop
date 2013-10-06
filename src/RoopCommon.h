@@ -6,7 +6,7 @@
 #include "ExecutableCommand.h"
 #include "sexp.h"
 
-RoopList eval(sexp_t* command);
+RoopList evaluate(sexp_t* command);
 void initRoop();
 bool isExitCommand(char *lineData);
 bool isDisplayCommand(char *lineData);

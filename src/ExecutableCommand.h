@@ -14,6 +14,10 @@ struct EvalResult {
   cv::Mat resultMat;
   std::string resultString;
   ResultType resultType;
+
+  EvalResult();
+  EvalResult(double dValue);
+  EvalResult(std::string resultString);
 };
 
 typedef std::vector<EvalResult> RoopList;
@@ -162,5 +166,9 @@ public:
     RoopList execute(RoopMachine &machine, RoopList arguments);
 };
 
+class GetCentroid: public ExecutableCommand {
+public:
+    RoopList execute(RoopMachine &machine, RoopList arguments);
+};
 
 #endif

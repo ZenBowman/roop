@@ -25,77 +25,85 @@ bool isSkippableLine(char *lineData) {
   return isCommentOrWhitespace(lineData); 
 }
 
+bool processLine(char* _command, EvalResult &commandResult,
+		 std::string &lastCommand, int &line_number,
+		 bool &shouldDisplay) 
+{
+  sexp_t* command = NULL;
+
+  if (!isSkippableLine(_command)) {
+    if (isDisplayCommand(_command)) {
+      imshow(lastCommand.c_str(), commandResult.resultMat);
+      shouldDisplay = true;
+    } 
+    else if (isExitCommand(_command)) {
+      std::cout << "Exit found" << std::endl;
+      return true;
+    }
+    else {
+      command = parse_sexp(_command, strlen(_command));
+      if (command == NULL) {
+	std::cout << "Invalid s-expression on line " 
+		  << line_number << " - skipping line" << std::endl;
+      }   
+
+      RoopList result = evaluate(command);
+      if (result.size() > 0) {
+	commandResult = result[0];
+	lastCommand = _command;
+      }
+    }
+  }    
+
+  if (command != NULL) {
+    destroy_sexp(command);
+  }
+
+  return false;
+}
+
 int main( int argc, char** argv )
 {
   initRoop();
   cv::destroyWindow("win");
   char _command[256];
   sexp_t* command;
-  EvalResult commandResult;
+  EvalResult cResult;
   std::string lastCommand;
-  
-  //namedWindow("Result", CV_WINDOW_AUTOSIZE);
-
+  bool shouldDisplay = false;
+    
   if (argc > 1) {
     char *initScriptFilename = argv[1];
     std::cout << "Recieved initializer file: " << initScriptFilename << std::endl;
     // Load initializer commands
     std::ifstream inputFile(initScriptFilename);
     int line_number = 0;
-    bool shouldDisplay = false;
     while (inputFile.getline(_command, 256)) {
-      
-      if (!isSkippableLine(_command)) {
-        command = parse_sexp(_command, strlen(_command));
-        if (command == NULL) {
-          std::cout << "Invalid s-expression on line " << line_number << " - skipping line" << std::endl;
-        } else if (isDisplayCommand(_command)) {
-	  imshow(lastCommand.c_str(), commandResult.resultMat);
-	  shouldDisplay = true;
-	} else if (isExitCommand(_command)) {
-	  std::cout << "Exit found" << std::endl;
-	  return 0;
-	}
-	else {
-	  RoopList result = eval(command);
-	  if (result.size() > 0) {
-	    commandResult = eval(command)[0];
-	    lastCommand = _command;
-	  }
-	}
-        line_number ++;
+      if (processLine(_command, cResult, lastCommand, 
+		      line_number, shouldDisplay)) {
+	return 0;
       }
+      line_number ++;
     }
-    waitKey(0);
+    if (shouldDisplay) {
+      waitKey(0);
+    }
   }
+ 
   
   while(true) {
     std::cout << "Enter command:\t";
     std::cin.getline(_command, 256);
     std::cout << "COMMAND = [" << _command << "]" << std::endl;
-    
-    if (isExitCommand(_command)) {
-      break;
+    shouldDisplay = false;
+    int lnum = 0;
+    if (processLine(_command, cResult, lastCommand, lnum, shouldDisplay)) {
+      return 0;
     }
-    else if (isDisplayCommand(_command)) {
-      imshow(lastCommand.c_str(), commandResult.resultMat);
+    if (shouldDisplay) {
       waitKey(0);
     }
-    else {
-      command = parse_sexp(_command, strlen(_command));
-      if (command == NULL) {
-        std::cout << "Invalid s-expression" << std::endl;
-      }
-      else {
-        RoopList result = eval(command);
-        if (result.size() > 0) {
-          commandResult = eval(command)[0];
-	  lastCommand = _command;
-        }
-        destroy_sexp(command);
-      }
-    }
-  }
+   }
 
-  return 1;
+  return 0;
 }

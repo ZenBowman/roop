@@ -37,6 +37,7 @@ InvertImage invertImage;
 AndImage andImage;
 SaveImage saveImage;
 FindConnected findConnected;
+GetCentroid getCentroid;
 
 std::auto_ptr<RoopMachine> defaultMachine;
 
@@ -52,7 +53,7 @@ void initRoop() {
   defaultMachine = std::auto_ptr<RoopMachine>(new RoopMachine());
 }
 
-RoopList eval(sexp_t* command) {
+RoopList evaluate(sexp_t* command) {
   return defaultMachine->eval(command);
 }
 
@@ -92,6 +93,20 @@ RoopMachine::RoopMachine() : exceptionBitSet(false)
   commands["get-foreground-mask"] = &getForegroundMaskGrabcut;
   commands["save"] = &saveImage;
   commands["find-connected"] = &findConnected;
+  commands["centroid"] = &getCentroid;
+}
+
+std::string toString(RoopList roopList) {
+  std::stringstream sstream;
+  for (size_t i=0; i<roopList.size(); i++) {
+    EvalResult i_er = roopList[i];      
+    if (i_er.resultType == RESULT_STRING) {
+      sstream << i_er.resultString << "\t";
+    } else {
+      sstream << "MATRIX" << "\t";
+    }
+  }
+  return sstream.str();
 }
 
 RoopList RoopMachine::eval(sexp_t* command) {
@@ -112,19 +127,16 @@ RoopList RoopMachine::eval(sexp_t* command) {
     }
     
     current = command->list->next;
+
     while (current != 0) {
       if (current->ty == SEXP_VALUE) {
-        std::cout << "Found argument: " << current->val << std::endl;
-        
         EvalResult er;
         er.resultString = current->val;
         if (imageExists(er.resultString)) {
           er.resultMat = retrieveImage(er.resultString);
           er.resultType = RESULT_MATRIX;
-          std::cout << "Added matrix argument " << er.resultString << std::endl;
         } else {
           er.resultType = RESULT_STRING;
-          std::cout << "Added literal argument " << er.resultString << std::endl;
         }
         
         arguments.push_back(er);
@@ -137,23 +149,15 @@ RoopList RoopMachine::eval(sexp_t* command) {
       }
       current = current->next;
     }
-    
-    std::cout << "Processing operation " << operation << " with args: " << std::endl;
-    
-    for (size_t i=0; i<arguments.size(); i++) {
-      EvalResult i_er = arguments[i];
-      
-      if (i_er.resultType == RESULT_STRING) {
-        std::cout << "string = " << i_er.resultString << std::endl;
-      } else {
-        std::cout << "MATRIX" << std::endl;
-      }
-      
-    }
-    
-    if (commands.find(operation) != commands.end()) {
-      result = commands[operation]->execute(*this, arguments);
-    }
   }
+
+  std::cout << "Processing operation " << operation << " with args: "
+	    << toString(arguments) << std::endl;
+  
+  if (commands.find(operation) != commands.end()) {
+    result = commands[operation]->execute(*this, arguments);
+    std::cout << "Result=" << toString(result) << std::endl;
+  }
+
   return result;
 }

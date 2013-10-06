@@ -1,0 +1,15 @@
+(set lcoins (load ../images/coins.jpeg))
+(set coins (resize (get lcoins) 600))
+
+(set fmask (get-foreground-mask coins))
+(set bfmask (blur fmask 5))
+
+(set ccmask (erode (dilate fmask 40 ellipse) 40 ellipse))
+
+(set c2 (erode ccmask 100 ellipse))
+(set quarter (dilate c2 100 ellipse))
+(set not-quarter (invert quarter))
+
+(set penny (erode (and fmask not-quarter) 4))
+(centroid quarter)
+(centroid penny)
