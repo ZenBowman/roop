@@ -1,4 +1,6 @@
 #include "ExecutableCommand.h"
+#include <iostream>
+#include <fstream>
 
 RoopList LoadImage::execute(RoopMachine &machine, RoopList arguments) {
   cv::Mat image;
@@ -20,4 +22,19 @@ RoopList SaveImage::execute(RoopMachine &machine, RoopList arguments) {
   std::string filename = arguments[1].resultString;
   cv::imwrite(filename, image);
   return fromMatrix(image);
+}
+
+WriteParams::WriteParams(bool newFile): append(!newFile) {
+}
+
+RoopList WriteParams::execute(RoopMachine &machine, RoopList arguments) {
+  std::string filename = arguments[0].resultString;
+  
+  std::ofstream appender(filename.c_str(), std::ios::out | std::ios::app);
+  for (int i=1; i<arguments.size(); i++) {
+    appender << arguments[i].resultString << " ";
+  }
+  appender << std::endl;
+  appender.close();
+  return arguments;
 }

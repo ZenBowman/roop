@@ -21,7 +21,7 @@ add_executable( Roop
   src/ExecutableCommand.cpp
   src/RoopCommon.cpp
   src/Roop.cpp
-  src/LoadImage.cpp
+  src/FileOperations.cpp
   src/MorphologicalOperations.cpp
   src/LogicalOperations.cpp
   src/DefGet.cpp

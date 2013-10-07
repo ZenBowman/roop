@@ -38,6 +38,8 @@ AndImage andImage;
 SaveImage saveImage;
 FindConnected findConnected;
 GetCentroid getCentroid;
+GetArea getArea;
+WriteParams writeParams(false);
 
 std::auto_ptr<RoopMachine> defaultMachine;
 
@@ -94,6 +96,8 @@ RoopMachine::RoopMachine() : exceptionBitSet(false)
   commands["save"] = &saveImage;
   commands["find-connected"] = &findConnected;
   commands["centroid"] = &getCentroid;
+  commands["area"] = &getArea;
+  commands["writeparams"] = &writeParams;
 }
 
 std::string toString(RoopList roopList) {

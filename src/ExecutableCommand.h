@@ -171,4 +171,22 @@ public:
     RoopList execute(RoopMachine &machine, RoopList arguments);
 };
 
+class GetArea: public ExecutableCommand {
+public:
+    RoopList execute(RoopMachine &machine, RoopList arguments);
+};
+
+class GetMoments: public ExecutableCommand {
+public:
+    RoopList execute(RoopMachine &machine, RoopList arguments);
+};
+
+class WriteParams: public ExecutableCommand {
+ private:
+  bool append;
+ public:
+  WriteParams(bool newFile);
+  RoopList execute(RoopMachine &machine, RoopList arguments);
+};
+
 #endif
