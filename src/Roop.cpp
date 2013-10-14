@@ -29,8 +29,6 @@ bool processLine(char* _command, EvalResult &commandResult,
 		 std::string &lastCommand, int &line_number,
 		 bool &shouldDisplay) 
 {
-  sexp_t* command = NULL;
-
   if (!isSkippableLine(_command)) {
     if (isDisplayCommand(_command)) {
       imshow(lastCommand.c_str(), commandResult.resultMat);
@@ -41,24 +39,13 @@ bool processLine(char* _command, EvalResult &commandResult,
       return true;
     }
     else {
-      command = parse_sexp(_command, strlen(_command));
-      if (command == NULL) {
-	std::cout << "Invalid s-expression on line " 
-		  << line_number << " - skipping line" << std::endl;
-      }   
-
-      RoopList result = evaluate(command);
+     RoopList result = evaluate(_command);
       if (result.size() > 0) {
 	commandResult = result[0];
 	lastCommand = _command;
       }
     }
   }    
-
-  if (command != NULL) {
-    destroy_sexp(command);
-  }
-
   return false;
 }
 

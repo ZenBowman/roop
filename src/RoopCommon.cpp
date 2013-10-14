@@ -7,6 +7,7 @@
 #include <opencv2/opencv.hpp>
 #include "ExecutableCommand.h"
 #include "RoopCommon.h"
+#include "Transform.h"
 
 using namespace cv;
 
@@ -55,7 +56,7 @@ void initRoop() {
   defaultMachine = std::auto_ptr<RoopMachine>(new RoopMachine());
 }
 
-RoopList evaluate(sexp_t* command) {
+RoopList evaluate(std::string command) {
   return defaultMachine->eval(command);
 }
 
@@ -113,6 +114,19 @@ std::string toString(RoopList roopList) {
   return sstream.str();
 }
 
+RoopList RoopMachine::eval(std::string _command) {
+  RoopList result;
+  sexp_t* command = parse_sexp((char*)_command.c_str(), strlen(_command.c_str()));
+
+  if (command != NULL) {
+    result = eval(command);
+    destroy_sexp(command);
+  } 
+
+  return result;
+}
+
+
 RoopList RoopMachine::eval(sexp_t* command) {
   elt* current;
   std::string operation;
@@ -122,7 +136,14 @@ RoopList RoopMachine::eval(sexp_t* command) {
   if (command->ty == SEXP_LIST) {
     operation = command->list->val;
     
-    if (commands.find(operation) == commands.end()) {
+    if (operation == "deftransform") {
+      std::string transformName = Transform::defineTransform(*this, command);
+      result.push_back(EvalResult(transformName));
+      return result;
+    }
+
+    if ((transforms.find(operation) == transforms.end()) && 
+	(commands.find(operation) == commands.end())) {
       std::stringstream exception;
       exception << "Invalid operator " << operation << "found." << std::endl;
       exception >> exceptionMessage;
@@ -161,6 +182,11 @@ RoopList RoopMachine::eval(sexp_t* command) {
   if (commands.find(operation) != commands.end()) {
     result = commands[operation]->execute(*this, arguments);
     std::cout << "Result=" << toString(result) << std::endl;
+  }
+
+  if (transforms.find(operation) != transforms.end()) {
+    std::cout << "Applying transform " << operation << std::endl;
+    result = transforms[operation].execute(*this, arguments);
   }
 
   return result;

@@ -1,0 +1,7 @@
+; -*-Roop-*-
+(set fmask (load ../images/bin-coins.jpeg))
+(set bfmask (blur fmask 5))
+(deftransform open ?x ?y (erode (dilate ?x ?y ellipse) ?y ellipse))
+(open bfmask 40)
+(display)
+

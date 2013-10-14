@@ -4,6 +4,7 @@ set(LIBSEXP_SRC thirdparty/sexpr-1.2.1/)
 
 project( Roop )
 find_package( OpenCV REQUIRED )
+find_package( Boost REQUIRED )
 
 add_executable( Roop 
   thirdparty/sexpr-1.2.1/cstring.c
@@ -17,7 +18,8 @@ add_executable( Roop
 
   src/ExecutableCommand.h
   src/RoopCommon.h
-  
+  src/Transform.h
+
   src/ExecutableCommand.cpp
   src/RoopCommon.cpp
   src/Roop.cpp
@@ -36,10 +38,12 @@ add_executable( Roop
   src/Segmentation.cpp
   src/ConnectedComponents.cpp
   src/ShapeAnalysis.cpp
+  src/Transform.cpp
 )
 
 include_directories(${LIBSEXP_SRC})
 
 target_link_libraries(Roop
   ${OpenCV_LIBS} 
+  ${Boost_LIBS}
 )

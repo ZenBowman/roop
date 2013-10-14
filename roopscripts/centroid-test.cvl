@@ -1,3 +1,5 @@
+; -*-Roop-*-
+
 ;; Extracts the centroid and area features 
 
 (set fmask (load ../images/bin-coins.jpeg))
@@ -8,8 +10,10 @@
 (set quarter (dilate c2 100 ellipse))
 (set not-quarter (invert quarter))
 (set penny (erode (and fmask not-quarter) 4))
+(display)
 
 (set quarter (binarize (make-gray quarter) 10))
+(display)
 
 (writeparams test.txt quarter)
 (writeparams test.txt centroid (centroid quarter))
@@ -17,7 +21,6 @@
 
 (centroid (make-gray penny))
 (area (binarize (make-gray penny) 10))
-
 
 (area quarter)
 (area (make-gray penny))

@@ -1,3 +1,4 @@
+;-*-Roop-*-
 (set lena (load ../images/lena-512-x-512.bmp))
 (set glena (make-gray lena))
 (set blena (binarize glena 120))
