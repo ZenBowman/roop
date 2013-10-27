@@ -189,4 +189,8 @@ class WriteParams: public ExecutableCommand {
   RoopList execute(RoopMachine &machine, RoopList arguments);
 };
 
+class GammaGray: public ExecutableCommand {
+  RoopList execute(RoopMachine &machine, RoopList arguments);
+};
+
 #endif

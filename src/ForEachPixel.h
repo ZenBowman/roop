@@ -13,9 +13,15 @@ struct RGB {
 
 class PointOperator {
  public:
+  virtual int transform(int intensity) = 0;
+};
+
+class RGBPointOperator {
+ public:
   virtual RGB transform(RGB pixelValue) = 0; 
 };
 
+Mat doForEachPixel(Mat inputMat, RGBPointOperator &pointOperator);
 Mat doForEachPixel(Mat inputMat, PointOperator &pointOperator);
 
 #endif

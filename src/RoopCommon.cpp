@@ -41,6 +41,7 @@ FindConnected findConnected;
 GetCentroid getCentroid;
 GetArea getArea;
 WriteParams writeParams(false);
+GammaGray gammaGray;
 
 std::auto_ptr<RoopMachine> defaultMachine;
 
@@ -99,6 +100,7 @@ RoopMachine::RoopMachine() : exceptionBitSet(false)
   commands["centroid"] = &getCentroid;
   commands["area"] = &getArea;
   commands["writeparams"] = &writeParams;
+  commands["gamma-correct-gray"] = &gammaGray;
 }
 
 std::string toString(RoopList roopList) {
