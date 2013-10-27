@@ -2,6 +2,5 @@
 (set gray-lena (make-gray lena))
 (display)
 
-(gamma-correct-gray gray-lena 5.0)
-(gamma-correct-gray gray-lena 5.0)
+(gamma-correct-gray gray-lena 0.5)
 (display)

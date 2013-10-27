@@ -24,15 +24,16 @@ Mat doForEachPixel(Mat inputMat, RGBPointOperator &pointOperator) {
 
 Mat doForEachPixel(Mat inputMat, PointOperator &pointOperator) {
   Mat output = inputMat.clone();
-  Mat_<int> imageData = output;
   float sumdiff = 0.0;
 
+  uchar *rowData;
   for (size_t i=0; i<output.rows; i++) {
+    rowData = output.ptr<uchar>(i);
     for (size_t j=0; j<output.cols; j++) {
-      int intensity = imageData(i, j);
+      int intensity = rowData[j];
       int new_intensity = pointOperator.transform(intensity);
       sumdiff += abs(intensity-new_intensity);
-      imageData(i, j) = new_intensity;
+      rowData[j] = new_intensity;
     }
   }
 
@@ -54,8 +55,9 @@ GammaCorrect::GammaCorrect(float pow) {
 }
 
 int GammaCorrect::transform(int intensity) {
-  int new_val = pow(intensity, power);
-  return new_val;
+  double scalified = intensity / 255.0;
+  double new_val = pow(scalified, power);
+  return (int) (new_val * 255.0);
 }
 
 RoopList GammaGray::execute(RoopMachine &machine, RoopList arguments) {
