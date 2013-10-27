@@ -19,6 +19,7 @@ add_executable( Roop
   src/ExecutableCommand.h
   src/RoopCommon.h
   src/Transform.h
+  src/ForEachPixel.h
 
   src/ExecutableCommand.cpp
   src/RoopCommon.cpp
@@ -39,6 +40,7 @@ add_executable( Roop
   src/ConnectedComponents.cpp
   src/ShapeAnalysis.cpp
   src/Transform.cpp
+  src/ForEachPixel.cpp
 )
 
 include_directories(${LIBSEXP_SRC})

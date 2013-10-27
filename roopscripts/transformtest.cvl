@@ -1,7 +1,10 @@
 ; -*-Roop-*-
 (set fmask (load ../images/bin-coins.jpeg))
 (set bfmask (blur fmask 5))
-(deftransform open ?x ?y (erode (dilate ?x ?y ellipse) ?y ellipse))
-(open bfmask 40)
 (display)
 
+;; Define function - limitation for now is that a function must be defined on one line
+(deftransform open ?x ?y (erode (dilate ?x ?y ellipse) ?y ellipse))
+
+(open bfmask 40)
+(display)
