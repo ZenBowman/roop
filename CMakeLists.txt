@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
 set(LIBSEXP_SRC thirdparty/sexpr-1.2.1/)
+set(SCHEME_SRC thirdparty/tinyscheme-1.41/)
 
 project( Roop )
 find_package( OpenCV REQUIRED )
@@ -15,6 +16,8 @@ add_executable( Roop
   thirdparty/sexpr-1.2.1/sexp_memory.c
   thirdparty/sexpr-1.2.1/sexp_ops.c
   thirdparty/sexpr-1.2.1/sexp_vis.c
+
+  thirdparty/tinyscheme-1.41/scheme.c
 
   src/ExecutableCommand.h
   src/RoopCommon.h
@@ -43,7 +46,7 @@ add_executable( Roop
   src/ForEachPixel.cpp
 )
 
-include_directories(${LIBSEXP_SRC})
+include_directories(${LIBSEXP_SRC} ${SCHEME_SRC})
 
 target_link_libraries(Roop
   ${OpenCV_LIBS} 
