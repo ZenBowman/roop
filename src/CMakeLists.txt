@@ -1,11 +1,13 @@
 cmake_minimum_required(VERSION 2.8)
 
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules")
 set(LIBSEXP_SRC thirdparty/sexpr-1.2.1/)
 set(SCHEME_SRC thirdparty/tinyscheme-1.41/)
 
 project( RoopProject )
 find_package( OpenCV REQUIRED )
 find_package( Boost REQUIRED )
+find_package( Readline REQUIRED )
 
 add_library( sexpr 
   thirdparty/sexpr-1.2.1/cstring.c
