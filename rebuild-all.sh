@@ -7,7 +7,7 @@ rm -rf xcode-build
 
 mkdir build
 cd build
-cmake .. -G "Unix Makefiles"
+cmake ../src -G "Unix Makefiles"
 make
 
 cd ..
@@ -16,7 +16,7 @@ if [ $OS == "darwin" ]
 then
     mkdir xcode-build
     cd xcode-build
-    cmake .. -G Xcode
+    cmake ../src -G Xcode
     cd ..
 fi
 
