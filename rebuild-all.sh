@@ -14,9 +14,13 @@ cd ..
 
 if [ $OS == "darwin" ]
 then
-    mkdir xcode-build
-    cd xcode-build
+    mkdir xcode-project
+    cd xcode-project
     cmake ../src -G Xcode
     cd ..
+else
+    mkdir eclipse-project
+    cd eclipse-project
+    cmake ../src -G "Eclipse CDT4 - Unix Makefiles" 
 fi
 

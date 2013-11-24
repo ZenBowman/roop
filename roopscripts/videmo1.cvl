@@ -1,3 +1,5 @@
+(get current-frame)
+
 (subtract (dilate (get current-frame) 5 3) (erode (get current-frame) 5 3))
 
 (filter (get current-frame) 1 1 1 1 1 1 1 1 1 15)
