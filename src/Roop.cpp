@@ -2,6 +2,8 @@
 #include "RoopCommon.h"
 #include <fstream>
 #include <string>
+#include <readline/readline.h>
+#include <readline/history.h>
 
 using namespace cv;
 
@@ -61,7 +63,7 @@ int main( int argc, char** argv )
     
   if (argc > 1) {
     char *initScriptFilename = argv[1];
-    std::cout << "Recieved initializer file: " << initScriptFilename << std::endl;
+    std::cout << "Received initializer file: " << initScriptFilename << std::endl;
     // Load initializer commands
     std::ifstream inputFile(initScriptFilename);
     int line_number = 0;
@@ -70,6 +72,7 @@ int main( int argc, char** argv )
 		      line_number, shouldDisplay)) {
 	return 0;
       }
+      add_history(_command);
       line_number ++;
     }
     if (shouldDisplay) {
@@ -79,12 +82,11 @@ int main( int argc, char** argv )
  
   
   while(true) {
-    std::cout << "Enter command:\t";
-    std::cin.getline(_command, 256);
-    std::cout << "COMMAND = [" << _command << "]" << std::endl;
+    char *line = readline("Enter command: \t");
+    add_history(line);
     shouldDisplay = false;
     int lnum = 0;
-    if (processLine(_command, cResult, lastCommand, lnum, shouldDisplay)) {
+    if (processLine(line, cResult, lastCommand, lnum, shouldDisplay)) {
       return 0;
     }
     if (shouldDisplay) {

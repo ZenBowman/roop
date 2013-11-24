@@ -57,6 +57,7 @@ include_directories(${LIBSEXP_SRC} ${SCHEME_SRC})
 target_link_libraries(Roop
   ${OpenCV_LIBS} 
   ${Boost_LIBS}
+  ${Readline_LIBRARY}
   sexpr
   tinyscheme
 )
