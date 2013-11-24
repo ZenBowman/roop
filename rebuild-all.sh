@@ -1,5 +1,7 @@
 #!/bin/bash
 
+OS=uname
+
 rm -rf build
 rm -rf xcode-build
 
@@ -10,8 +12,11 @@ make
 
 cd ..
 
-mkdir xcode-build
-cd xcode-build
-cmake .. -G Xcode
+if [ $OS == "darwin" ]
+then
+    mkdir xcode-build
+    cd xcode-build
+    cmake .. -G Xcode
+    cd ..
+fi
 
-cd ..

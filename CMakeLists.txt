@@ -7,7 +7,7 @@ project( Roop )
 find_package( OpenCV REQUIRED )
 find_package( Boost REQUIRED )
 
-add_executable( Roop 
+add_library( sexpr 
   thirdparty/sexpr-1.2.1/cstring.c
   thirdparty/sexpr-1.2.1/event_temp.c
   thirdparty/sexpr-1.2.1/faststack.c
@@ -16,9 +16,13 @@ add_executable( Roop
   thirdparty/sexpr-1.2.1/sexp_memory.c
   thirdparty/sexpr-1.2.1/sexp_ops.c
   thirdparty/sexpr-1.2.1/sexp_vis.c
+)
 
+add_library( tinyscheme
   thirdparty/tinyscheme-1.41/scheme.c
+)
 
+add_executable( Roop  
   src/ExecutableCommand.h
   src/RoopCommon.h
   src/Transform.h
@@ -51,4 +55,6 @@ include_directories(${LIBSEXP_SRC} ${SCHEME_SRC})
 target_link_libraries(Roop
   ${OpenCV_LIBS} 
   ${Boost_LIBS}
+  sexpr
+  tinyscheme
 )
