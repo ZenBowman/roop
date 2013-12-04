@@ -3,13 +3,20 @@
 OS=uname
 
 rm -rf build
+rm -rf debug
+rm -rf release
 rm -rf xcode-build
 
-mkdir build
-cd build
-cmake ../src -G "Unix Makefiles"
+mkdir debug
+cd debug
+cmake ../src -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Debug
 make
+cd ..
 
+mkdir release
+cd release
+cmake ../src -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
+make
 cd ..
 
 if [ $OS == "darwin" ]
@@ -22,5 +29,6 @@ else
     mkdir eclipse-project
     cd eclipse-project
     cmake ../src -G "Eclipse CDT4 - Unix Makefiles" 
+    cd ..
 fi
 
