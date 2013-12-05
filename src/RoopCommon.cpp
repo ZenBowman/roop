@@ -69,6 +69,12 @@ Mat RoopMachine::retrieveImage(std::string imageName) {
   return savedImages[imageName];
 }
 
+
+CommandMapIterators getCommandIterator() {
+  return defaultMachine->getCommandIterator();
+}
+
+
 RoopMachine::RoopMachine() : exceptionBitSet(false)
 {
   commands["resize"] = &resizeImage;
@@ -101,6 +107,14 @@ RoopMachine::RoopMachine() : exceptionBitSet(false)
   commands["area"] = &getArea;
   commands["writeparams"] = &writeParams;
   commands["gamma-correct-gray"] = &gammaGray;
+}
+
+
+CommandMapIterators RoopMachine::getCommandIterator() {
+  CommandMapIterators ci;
+  ci.start = commands.begin();
+  ci.end = commands.end();
+  return ci;
 }
 
 std::string toString(RoopList roopList) {
