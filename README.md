@@ -3,21 +3,30 @@ roop
 
 An s-expression language for image manipulation and computer vision built on OpenCV
 
-Installation:
+Prerequisites:
 -------------
- - Requires Cmake
- - Requires OpenCV
+'''
+g++
+cmake
+opencv
+boost
+readline
+'''
+
+Installation
+------------
 
 Go to the main project directory, you should see the following:
-  
+'''  
 	zenbowman@zenbowman-Pangolin-Performance:~/dev/github/roop$ ls	
 	images          README.md   roopscripts     thirdparty
 	CMakeLists.txt  LICENSE     rebuild-all.sh  src
+'''
 
-Type the following:
->  bash rebuild-all.sh
-  
-If you have cmake and opencv installed, it should build fine.
+To build:
+'''
+bash rebuild-all.sh
+'''  
 
 Running examples:
 -----------------
