@@ -10,13 +10,17 @@ Examples
 
 Prerequisites
 -------------
+ * g++
+ * cmake
+ * opencv
+ * boost
+ * readline
+
+### Getting the prerequisites on Fedora
 ```
-g++
-cmake
-opencv
-boost
-readline
+sudo yum instal gcc-g++ cmake opencv-devel boost-devel readline-devel
 ```
+
 
 Installation
 ------------
