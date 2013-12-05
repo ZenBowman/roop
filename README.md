@@ -1,32 +1,35 @@
 roop
 ====
 
-An s-expression language for image manipulation and computer vision built on OpenCV
+Roop is a language and execution environment designed for image processing and computer vision. It is designed to encourage quick exploration and implementation, and built on top of OpenCV. 
 
-Prerequisites:
+Examples
+---------
+
+Prerequisites
 -------------
-'''
+```
 g++
 cmake
 opencv
 boost
 readline
-'''
+```
 
 Installation
 ------------
 
 Go to the main project directory, you should see the following:
-'''  
-	zenbowman@zenbowman-Pangolin-Performance:~/dev/github/roop$ ls	
-	images          README.md   roopscripts     thirdparty
-	CMakeLists.txt  LICENSE     rebuild-all.sh  src
-'''
+```  
+zenbowman@zenbowman-Pangolin-Performance:~/dev/github/roop$ ls	
+images          README.md   roopscripts     thirdparty
+CMakeLists.txt  LICENSE     rebuild-all.sh  src
+```
 
 To build:
-'''
+```
 bash rebuild-all.sh
-'''  
+```  
 
 Running examples:
 -----------------
