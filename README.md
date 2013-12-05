@@ -5,8 +5,18 @@ Roop is a language and execution environment designed for image processing and c
 
 [1]: http://opencv.org
 
-Examples
+Motivating examples
 ---------
+Resizing an image to 1024x768 
+```
+(set resized-image (resize (load images/foo.jpg) 1024 768))
+```
+
+Applying the Canny edge detecting algorithm on an image (the last argument controls how aggressively edges are detected - lower implies more edges will be found)
+```
+(canny (load images/foo.jpg) 20)
+```
+
 
 Prerequisites
 -------------
