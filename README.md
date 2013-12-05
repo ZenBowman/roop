@@ -1,7 +1,9 @@
 roop
 ====
 
-Roop is a language and execution environment designed for image processing and computer vision. It is designed to encourage quick exploration and implementation, and built on top of OpenCV. 
+Roop is a language and execution environment designed for image processing and computer vision. It is designed to encourage quick exploration and implementation, and built on top of [OpenCV][1].
+
+[1]: http://opencv.org
 
 Examples
 ---------
