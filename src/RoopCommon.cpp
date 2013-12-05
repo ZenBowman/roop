@@ -69,11 +69,9 @@ Mat RoopMachine::retrieveImage(std::string imageName) {
   return savedImages[imageName];
 }
 
-
-CommandMapIterators getCommandIterator() {
-  return defaultMachine->getCommandIterator();
+std::vector<std::string> getCommandList() {
+  return defaultMachine->getCommandList();
 }
-
 
 RoopMachine::RoopMachine() : exceptionBitSet(false)
 {
@@ -107,14 +105,17 @@ RoopMachine::RoopMachine() : exceptionBitSet(false)
   commands["area"] = &getArea;
   commands["writeparams"] = &writeParams;
   commands["gamma-correct-gray"] = &gammaGray;
+
+  CommandMap::iterator iter = commands.begin();
+  while(iter!=commands.end()) {
+    commandList.push_back(iter->first);
+    iter++;
+  }
 }
 
 
-CommandMapIterators RoopMachine::getCommandIterator() {
-  CommandMapIterators ci;
-  ci.start = commands.begin();
-  ci.end = commands.end();
-  return ci;
+std::vector<std::string> RoopMachine::getCommandList() {
+  return commandList;
 }
 
 std::string toString(RoopList roopList) {

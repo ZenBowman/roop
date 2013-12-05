@@ -62,29 +62,28 @@ char* dupstr(const char *text) {
 
 char* command_generator (const char *text, int state)
 {
-  static CommandMap::iterator cmdIter;
-  static CommandMap::iterator end;
+  static int list_index = 0;
   static int len;
   const char *name;
 
   if (!state)
     {
-      CommandMapIterators ci = getCommandIterator();
-      cmdIter = ci.start;
-      end = ci.end;
+      list_index = 0;
       len = strlen (text);
     }
 
   /* Return the next name which partially matches from the
      command list. */
-  while (cmdIter != end)
+  while (name = getCommandList()[list_index].c_str())
     {    
-      name = cmdIter->first.c_str();
+      list_index++;
+      if (list_index > getCommandList().size()) {
+	break;
+      }
 
       if (strncmp (name, text, len) == 0) {
         return (dupstr(name));
       }
-      cmdIter ++;
     }
 
   /* If no names matched, then return NULL. */

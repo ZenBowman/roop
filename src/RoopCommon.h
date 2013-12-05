@@ -18,7 +18,7 @@ RoopList evaluate(std::string command);
 void initRoop();
 bool isExitCommand(char *lineData);
 bool isDisplayCommand(char *lineData);
-CommandMapIterators getCommandIterator();
+std::vector<std::string> getCommandList();
 
 class RoopMachine {
 public:
@@ -30,13 +30,14 @@ public:
   bool imageExists(std::string imageName);
   cv::Mat retrieveImage(std::string imageName);
   RoopList eval(std::string command);
-  CommandMapIterators getCommandIterator();
+  std::vector<std::string> getCommandList();
 
 private:
   RoopList eval(std::vector<std::string> commands);
   RoopList eval(sexp_t* command);
   std::map<std::string, cv::Mat> savedImages;
   CommandMap commands;
+  std::vector<std::string> commandList;
   std::map<std::string, Transform> transforms;
 
   bool exceptionBitSet;
