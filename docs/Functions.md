@@ -35,4 +35,4 @@ For example:
 ```
 Subtracts one image from another.
 
-![Coins](http://psamtani.net/pictures/coins.jpg)
+![Coins](http://psamtani.net/pictures/subtraction.jpg)
