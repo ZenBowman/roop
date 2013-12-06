@@ -1,6 +1,8 @@
 Functions
 =========
 
+To execute any of the examples, open up the roop REPL and run the sequence of commands specified for the example.
+
 ### load
 Loads an image from a file - example:
 ```
