@@ -17,6 +17,9 @@ Applying the Canny edge detecting algorithm on an image (the last argument contr
 (canny (load images/foo.jpg) 20)
 ```
 
+A documentation of all the functions in roop is found [here][2].
+
+[2]: docs/Functions.md
 
 Prerequisites
 -------------
