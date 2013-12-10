@@ -48,7 +48,7 @@ Displays the value of the last result.
 (load images/foo.jpg)
 (display)
 ```
-Will show the foo.jpg image in a new window.
+Will show the foo.jpg image in a new window. When you use the display command, the CLI will stop accepting commands unless you click on the new image and press any key.
 
 ### subtract
 Subtracts one image from another. 
