@@ -24,6 +24,11 @@ typedef std::vector<EvalResult> RoopList;
 
 RoopList fromMatrix(cv::Mat matrix);
 
+inline int argAsInt(EvalResult arg) {
+  return atoi(arg.resultString.c_str());
+}
+
+
 class ExecutableCommand {
  public:
   virtual RoopList execute(RoopMachine &machine, RoopList arguments) = 0;

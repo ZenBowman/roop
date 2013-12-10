@@ -25,6 +25,7 @@ public:
   friend class DefImage;
   friend class GetImage;
   friend class Transform;
+  friend class ResizeImage;
 
   RoopMachine();
   bool imageExists(std::string imageName);

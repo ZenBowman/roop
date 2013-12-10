@@ -1,6 +1,7 @@
 #include "ExecutableCommand.h"
 #include <iostream>
 #include <fstream>
+#include "RoopCommon.h"
 
 RoopList LoadImage::execute(RoopMachine &machine, RoopList arguments) {
   cv::Mat image;
@@ -10,10 +11,26 @@ RoopList LoadImage::execute(RoopMachine &machine, RoopList arguments) {
 }
 
 RoopList ResizeImage::execute(RoopMachine &machine, RoopList arguments) {
+  const size_t argsize = arguments.size();
   cv::Mat newImage;
   cv::Mat original = arguments[0].resultMat;
-  int newSize = atoi(arguments[1].resultString.c_str());
-  cv::resize(original, newImage, cv::Size(newSize, newSize));
+
+  int newSizeX;
+  int newSizeY;
+
+  if (argsize < 2) {
+    machine.exceptionBitSet = true;
+    return RoopList();
+  }
+  else if (argsize == 2) {
+    newSizeX = argAsInt(arguments[1]);
+    newSizeY = argAsInt(arguments[1]);
+  } else {
+    newSizeX = argAsInt(arguments[1]);
+    newSizeY = argAsInt(arguments[2]);
+  }
+
+  cv::resize(original, newImage, cv::Size(newSizeX, newSizeY));
   return fromMatrix(newImage);
 }
 
