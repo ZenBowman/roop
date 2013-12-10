@@ -9,27 +9,41 @@ Loads an image from a file.
 #### Arguments:
 - arg1: image name
 
-For example:
+#### Example:
 ```
 (load images/foo.jpg)
 ```
 
 ### set
-Sets the value of a variable to an image. 
+Binds the value of an image to a name. Once a name has been bound, rebinding it is not permitted (i.e. you cannot set the value of the same name more than once).
 
 #### Arguments:
 - arg1: image name
 - arg2: image
 
-For example:
+#### Example:
 ```
 (set foo (load images/foo.jpg))
 ```
 Sets the value of foo to the image in foo.jpg
 
+### get
+Gets an image from a named value (the value must have been set beforehand using set).
+
+#### Arguments
+- arg1: name of image
+
+#### Example
+````
+(get foo)
+````
+
+Get is called implicitly if the name is used, in most cases you do not need to call it explicitly.
+
 ### display
 Displays the value of the last result. 
-For example:
+
+#### Example
 ```
 (load images/foo.jpg)
 (display)
@@ -39,11 +53,11 @@ Will show the foo.jpg image in a new window.
 ### subtract
 Subtracts one image from another. 
 
-#### Arguments:
+#### Arguments
 - arg1: source image
 - arg2: destination image
 
-For example:
+#### Example
 ```
 (subtract coins penny)
 ```
@@ -54,11 +68,11 @@ Subtracts one image from another.
 ### save 
 Saves an image to a file, based on the extension.
 
-#### Arguments:
+#### Arguments
 - arg1: image
 - arg2: filename (relative path)
 
-For example:
+#### Example
 ```
 (save (subtract coins penny) images/coins-without-penny.jpg
 ```
@@ -66,6 +80,12 @@ For example:
 ### resize
 Resizes an image. 
 
-#### Arguments:
+#### Arguments
 - arg1: image
-- arg2: New size, in pixels.
+- arg2: New width, in pixels
+- arg3: New height, in pixels (optional: If a third argument is not provided, roop assumes that you want to resize to a square image and uses the value of arg2 for both the width and height).
+
+#### Examplex
+````
+(resize coins 1024 768)
+````
