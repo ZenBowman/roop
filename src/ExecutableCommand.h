@@ -198,4 +198,9 @@ class GammaGray: public ExecutableCommand {
   RoopList execute(RoopMachine &machine, RoopList arguments);
 };
 
+class ProbeMatrix: public ExecutableCommand {
+  RoopList execute(RoopMachine &machine, RoopList arguments);
+};
+
+
 #endif

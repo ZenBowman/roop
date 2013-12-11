@@ -42,6 +42,7 @@ GetCentroid getCentroid;
 GetArea getArea;
 WriteParams writeParams(false);
 GammaGray gammaGray;
+ProbeMatrix probeMatrix;
 
 std::auto_ptr<RoopMachine> defaultMachine;
 
@@ -105,6 +106,7 @@ RoopMachine::RoopMachine() : exceptionBitSet(false)
   commands["area"] = &getArea;
   commands["writeparams"] = &writeParams;
   commands["gamma-correct-gray"] = &gammaGray;
+  commands["probe"] = &probeMatrix;
 
   CommandMap::iterator iter = commands.begin();
   while(iter!=commands.end()) {
