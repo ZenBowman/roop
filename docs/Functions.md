@@ -6,10 +6,10 @@ To execute any of the examples, open up the roop REPL and run the sequence of co
 ### load
 Loads an image from a file.
 
-#### Arguments:
+#### Arguments
 - arg1: image name
 
-#### Example:
+#### Example
 ```
 (load images/foo.jpg)
 ```
@@ -17,11 +17,11 @@ Loads an image from a file.
 ### set
 Binds the value of an image to a name. Once a name has been bound, rebinding it is not permitted (i.e. you cannot set the value of the same name more than once).
 
-#### Arguments:
+#### Arguments
 - arg1: image name
 - arg2: image
 
-#### Example:
+#### Example
 ```
 (set foo (load images/foo.jpg))
 ```
@@ -85,7 +85,54 @@ Resizes an image.
 - arg2: New width, in pixels
 - arg3: New height, in pixels (optional: If a third argument is not provided, roop assumes that you want to resize to a square image and uses the value of arg2 for both the width and height).
 
-#### Examplex
+#### Example
 ````
 (resize coins 1024 768)
 ````
+
+### invert
+Inverts an image.
+
+#### Arguments
+- arg1: image
+
+#### Example
+````
+(invert coins)
+````
+
+### and
+Applies a logical and to the image given a mask.
+
+#### Arguments
+- arg1: image
+- arg2: mask (a binary image)
+
+#### Example
+````
+(set penny (and coins penny-mask))
+````
+
+### make-gray
+Converts a color image to grayscale
+
+#### Arguments
+- arg1: image
+
+#### Example
+````
+(set gray-coins (make-gray coins))
+````
+
+### make-color
+Converts a grayscale image to a color image. Note that this is a representation change and you will not be able to see the visual difference.
+
+#### Arguments
+- arg1: image
+
+#### Example
+````
+(make-color gray-coins)
+````
+
+
