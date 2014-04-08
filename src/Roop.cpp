@@ -5,6 +5,10 @@
 #include <iterator>
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <regex>
+#include <boost/algorithm/string.hpp>
+#include <boost/algorithm/string/predicate.hpp>
+#include <boost/lexical_cast.hpp>
 
 using namespace cv;
 
@@ -30,8 +34,9 @@ bool isSkippableLine(char *lineData) {
 
 bool processLine(char* _command, EvalResult &commandResult,
 		 std::string &lastCommand, int &line_number,
-		 bool &shouldDisplay) 
+		 bool &shouldDisplay, std::string &persistFilename) 
 {
+
   if (!isSkippableLine(_command)) {
     if (isDisplayCommand(_command)) {
       imshow(lastCommand.c_str(), commandResult.resultMat);
@@ -40,6 +45,12 @@ bool processLine(char* _command, EvalResult &commandResult,
     else if (isExitCommand(_command)) {
       std::cout << "Exit found" << std::endl;
       return true;
+    }
+    else if (boost::starts_with(_command, "(persist")) {
+      std::vector<std::string> splitElements;
+      boost::split(splitElements, _command, boost::is_any_of(" "));
+      boost::replace_last(splitElements[1], ")", "");
+      persistFilename = splitElements[1];
     }
     else {
      RoopList result = evaluate(_command);
@@ -125,6 +136,7 @@ int main( int argc, char** argv )
   EvalResult cResult;
   std::string lastCommand;
   bool shouldDisplay = false;
+  std::string persistFilename = "";
     
   if (argc > 1) {
     char *initScriptFilename = argv[1];
@@ -134,11 +146,16 @@ int main( int argc, char** argv )
     int line_number = 0;
     while (inputFile.getline(_command, 256)) {
       if (processLine(_command, cResult, lastCommand, 
-		      line_number, shouldDisplay)) {
+		      line_number, shouldDisplay, persistFilename)) {
 	return 0;
       }
       add_history(_command);
       line_number ++;
+      if (persistFilename != "") {
+	std::cout << "Persisting to " << persistFilename << std::endl;
+	cv::imwrite(persistFilename, cResult.resultMat);
+	persistFilename = "";
+      }
     }
     if (shouldDisplay) {
       waitKey(0);
@@ -152,9 +169,15 @@ int main( int argc, char** argv )
     add_history(line);
     shouldDisplay = false;
     int lnum = 0;
-    if (processLine(line, cResult, lastCommand, lnum, shouldDisplay)) {
+    if (processLine(line, cResult, lastCommand, lnum, shouldDisplay, persistFilename)) {
       return 0;
     }
+    if (persistFilename != "") {
+      std::cout << "Persisting to " << persistFilename << std::endl;
+      cv::imwrite(persistFilename, cResult.resultMat);
+      persistFilename = "";
+    }
+ 
     if (shouldDisplay) {
       waitKey(0);
     }

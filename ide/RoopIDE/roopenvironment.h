@@ -22,6 +22,7 @@ private slots:
 
 private:
     Ui::RoopEnvironment *ui;
+    int lastLinePosition;
 };
 
 #endif // ROOPENVIRONMENT_H

@@ -54,6 +54,10 @@ add_executable( Roop
 
 include_directories(${LIBSEXP_SRC} ${SCHEME_SRC})
 
+if(CMAKE_COMPILER_IS_GNUCXX)
+    add_definitions(-std=gnu++0x)
+endif()
+
 target_link_libraries(Roop
   ${OpenCV_LIBS} 
   ${Boost_LIBS}

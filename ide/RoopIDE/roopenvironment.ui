@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>657</width>
+    <height>486</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,8 +20,21 @@
       <x>10</x>
       <y>30</y>
       <width>311</width>
-      <height>221</height>
+      <height>381</height>
      </rect>
+    </property>
+   </widget>
+   <widget class="QLabel" name="displayImage">
+    <property name="geometry">
+     <rect>
+      <x>360</x>
+      <y>30</y>
+      <width>271</width>
+      <height>381</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>TextLabel</string>
     </property>
    </widget>
   </widget>
@@ -30,8 +43,8 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>400</width>
-     <height>20</height>
+     <width>657</width>
+     <height>19</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuRoop">
