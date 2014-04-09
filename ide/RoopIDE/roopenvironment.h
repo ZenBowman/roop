@@ -2,6 +2,7 @@
 #define ROOPENVIRONMENT_H
 
 #include <QMainWindow>
+#include "roopsyntaxhighlighter.h"
 
 namespace Ui {
 class RoopEnvironment;
@@ -20,9 +21,14 @@ private slots:
 
     void on_roopEditor_cursorPositionChanged();
 
+    void on_actionSave_As_triggered();
+
+    void on_actionLoad_triggered();
+
 private:
     Ui::RoopEnvironment *ui;
     int lastLinePosition;
+    RoopSyntaxHighlighter *roopSyntaxHighlighter;
 };
 
 #endif // ROOPENVIRONMENT_H

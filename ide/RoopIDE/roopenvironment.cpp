@@ -3,6 +3,9 @@
 #include "stdlib.h"
 #include <fstream>
 #include <QTextBlock>
+#include <QFileDialog>
+#include <QTextStream>
+#include <QMessageBox>
 #include <cstdio>
 #include <unistd.h>
 
@@ -17,6 +20,7 @@ RoopEnvironment::RoopEnvironment(QWidget *parent) :
     lastLinePosition(0)
 {
     ui->setupUi(this);
+    QSyntaxHighlighter *roopSyntaxHighlighter = new RoopSyntaxHighlighter(ui->roopEditor->document());
 }
 
 RoopEnvironment::~RoopEnvironment()
@@ -53,5 +57,40 @@ void RoopEnvironment::on_roopEditor_cursorPositionChanged()
         QPixmap scaledImage = image->scaled(ui->displayImage->size());
         ui->displayImage->setPixmap(scaledImage);
         ui->displayImage->repaint();
+    }
+}
+
+void RoopEnvironment::on_actionSave_As_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Save File As"), "",
+                                                    tr("CVL files (*.cvl)"));
+    if (fileName != "") {
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly)) {
+         // error message
+        }
+        else {
+            QTextStream stream(&file);
+            stream << ui->roopEditor->toPlainText();
+            stream.flush();
+            file.close();
+        }
+    }
+}
+
+void RoopEnvironment::on_actionLoad_triggered()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"), "",
+        tr("CVL files (*.cvl)"));
+
+    if (fileName != "") {
+        QFile file(fileName);
+        if (!file.open(QIODevice::ReadOnly)) {
+            QMessageBox::critical(this, tr("Error"), tr("Could not open file"));
+            return;
+        }
+        QTextStream in(&file);
+        ui->roopEditor->setText(in.readAll());
+        file.close();
     }
 }

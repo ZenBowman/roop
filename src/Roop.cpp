@@ -9,9 +9,9 @@
 #include <boost/algorithm/string.hpp>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/lexical_cast.hpp>
+#include <unistd.h>
 
 using namespace cv;
-
 
 bool isCommentOrWhitespace(char *lineData) {
   std::string line = lineData;
@@ -130,6 +130,32 @@ void initialize_readline()
 int main( int argc, char** argv )
 {
   initRoop();
+
+  char* initScriptFilename;
+  char* cValue = NULL;
+  int c;
+  bool printCommands = false;
+
+  opterr = 0;
+  while ((c = getopt(argc, argv, "p")) != -1) {
+    switch (c) {
+    case 'p':
+      printCommands = true;
+      break;
+    }
+  }
+
+  if (printCommands) {
+    std::vector<std::string> commands = getCommandList();
+    for (int i =0; i<commands.size(); i++) {
+      std::cout << commands[i] << std::endl;
+    }
+
+    
+    return 0;
+  }
+
+
   cv::destroyWindow("win");
   char _command[256];
   sexp_t* command;
