@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>657</width>
-    <height>486</height>
+    <width>799</width>
+    <height>599</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,15 +19,15 @@
      <rect>
       <x>10</x>
       <y>30</y>
-      <width>311</width>
-      <height>381</height>
+      <width>501</width>
+      <height>511</height>
      </rect>
     </property>
    </widget>
    <widget class="QLabel" name="displayImage">
     <property name="geometry">
      <rect>
-      <x>360</x>
+      <x>520</x>
       <y>30</y>
       <width>271</width>
       <height>381</height>
@@ -43,13 +43,23 @@
      <string/>
     </property>
    </widget>
+   <widget class="QListWidget" name="operatorsList">
+    <property name="geometry">
+     <rect>
+      <x>520</x>
+      <y>420</y>
+      <width>271</width>
+      <height>121</height>
+     </rect>
+    </property>
+   </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>657</width>
+     <width>799</width>
      <height>19</height>
     </rect>
    </property>

@@ -1,4 +1,5 @@
 #include "roopsyntaxhighlighter.h"
+#include "syntaxkeywords.h"
 
 RoopSyntaxHighlighter::RoopSyntaxHighlighter(QObject *parent) :
     QSyntaxHighlighter(parent)
@@ -11,11 +12,10 @@ RoopSyntaxHighlighter::RoopSyntaxHighlighter(QTextDocument *parent) :
 }
 
 void RoopSyntaxHighlighter::highlightBlock(const QString &text){
-    qDebug("called");
     QTextCharFormat myClassFormat;
     myClassFormat.setFontWeight(QFont::Bold);
     myClassFormat.setForeground(Qt::darkMagenta);
-    QString pattern = "set";
+    QString pattern = SYNTAX_KEYWORDS;
 
     QRegExp expression(pattern);
     int index = text.indexOf(expression);

@@ -3,6 +3,7 @@
 
 #include <QMainWindow>
 #include "roopsyntaxhighlighter.h"
+#include <vector>
 
 namespace Ui {
 class RoopEnvironment;
@@ -29,6 +30,8 @@ private:
     Ui::RoopEnvironment *ui;
     int lastLinePosition;
     RoopSyntaxHighlighter *roopSyntaxHighlighter;
+    std::vector<QString> operators;
+    void filterOperatorsListBy(QString& lastCommand);
 };
 
 #endif // ROOPENVIRONMENT_H

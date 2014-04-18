@@ -14,9 +14,13 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
         roopenvironment.cpp \
-    roopsyntaxhighlighter.cpp
+    roopsyntaxhighlighter.cpp \
+    syntaxkeywords.cpp
 
 HEADERS  += roopenvironment.h \
-    roopsyntaxhighlighter.h
+    roopsyntaxhighlighter.h \
+    roopconstants.h \
+    syntaxkeywords.h \
+    roopcommand.h
 
 FORMS    += roopenvironment.ui
