@@ -27,7 +27,6 @@ RoopEnvironment::RoopEnvironment(QWidget *parent) :
     ui->setupUi(this);
     QSyntaxHighlighter *roopSyntaxHighlighter = new RoopSyntaxHighlighter(ui->roopEditor->document());
 
-    std::map<std::string, std::string> keywordMap = createKeywordMap();
     for (std::map<std::string, std::string>::iterator it=keywordMap.begin(); it!=keywordMap.end(); ++it) {
         std::string key = it->first;
         QString newString(key.c_str());
@@ -47,8 +46,6 @@ void RoopEnvironment::filterOperatorsListBy(QString& lastCommand) {
     for(int i=0; i<operators.size(); i++) {
         if (boost::starts_with(operators[i].toStdString(), lastCommandString)) {
             ui->operatorsList->addItem(operators[i]);
-        } else {
-            qDebug() << operators[i] << " does not start with " << lastCommand;
         }
     }
 }

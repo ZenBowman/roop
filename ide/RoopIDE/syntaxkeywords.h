@@ -5,6 +5,6 @@
 
 extern const char *SYNTAX_KEYWORDS;
 
-std::map<std::string, std::string> createKeywordMap();
+extern std::map<std::string, std::string> keywordMap;
 
 #endif

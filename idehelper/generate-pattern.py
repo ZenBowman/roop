@@ -23,3 +23,6 @@ if __name__ == "__main__":
         print '\tm["%s"] = "%s";' % (k, cmap[k])
     print "\treturn m;"
     print "}"
+    print ""
+    print "std::map<std::string, std::string> keywordMap = createKeywordMap();"
+    print ""
