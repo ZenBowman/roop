@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "roopsyntaxhighlighter.h"
 #include <vector>
+#include <QShortcut>
 
 namespace Ui {
 class RoopEnvironment;
@@ -26,12 +27,18 @@ private slots:
 
     void on_actionLoad_triggered();
 
+    void saveCurrentFile();
+
 private:
     Ui::RoopEnvironment *ui;
     int lastLinePosition;
     RoopSyntaxHighlighter *roopSyntaxHighlighter;
     std::vector<QString> operators;
+
     void filterOperatorsListBy(QString& lastCommand);
+    void loadFile(const QString& fileName);
+
+    QShortcut *saveShortCut;
 };
 
 #endif // ROOPENVIRONMENT_H

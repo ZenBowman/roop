@@ -1,1 +1,2 @@
 (set penny (load penny.jpg))
+(set gpeny (make-gray penny))
