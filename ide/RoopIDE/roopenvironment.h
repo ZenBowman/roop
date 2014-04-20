@@ -34,9 +34,11 @@ private:
     int lastLinePosition;
     RoopSyntaxHighlighter *roopSyntaxHighlighter;
     std::vector<QString> operators;
+    std::vector<QString> images;
 
-    void filterOperatorsListBy(QString& lastCommand);
+    void filterOperatorsListBy(QString &currentCommand, QString &lastCommand);
     void loadFile(const QString& fileName);
+    void operatorsAsListWithFilter(std::vector<QString> someVector, std::string beginning);
 
     QShortcut *saveShortCut;
 };

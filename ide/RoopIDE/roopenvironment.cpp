@@ -16,6 +16,8 @@
 #include "roopconstants.h"
 #include "syntaxkeywords.h"
 #include "roopcommon.h"
+#include <sys/types.h>
+#include <dirent.h>
 #include <boost/algorithm/string/predicate.hpp>
 #include <boost/algorithm/string/trim.hpp>
 #include <boost/algorithm/string/replace.hpp>
@@ -42,6 +44,17 @@ RoopEnvironment::RoopEnvironment(QWidget *parent) :
     saveShortCut = new QShortcut(QKeySequence(tr("Ctrl+S", "File|Save")), ui->roopEditor);
     saveShortCut->activated();
     QObject::connect(saveShortCut, SIGNAL(activated()), this, SLOT(saveCurrentFile()));
+
+    DIR *dirp = opendir(IMAGES_DIR.c_str());
+    dirent *dp;
+    while ((dp = readdir(dirp)) != NULL) {
+        if (((strcmp(".", dp->d_name)) != 0) &&
+            ((strcmp("..", dp->d_name)) != 0)) {
+            QString newImage(dp->d_name);
+            images.push_back(newImage);
+        }
+    }
+    closedir(dirp);
 }
 
 RoopEnvironment::~RoopEnvironment()
@@ -56,14 +69,25 @@ void RoopEnvironment::saveCurrentFile() {
     qDebug() << "Saving...";
 }
 
-void RoopEnvironment::filterOperatorsListBy(QString& lastCommand) {
-    std::string lastCommandString = lastCommand.toStdString();
-    boost::replace_all(lastCommandString, "(", "");
+void RoopEnvironment::operatorsAsListWithFilter(std::vector<QString> someVector, std::string beginning) {
     ui->operatorsList->clear();
-    for(size_t i=0; i<operators.size(); i++) {
-        if (boost::starts_with(operators[i].toStdString(), lastCommandString)) {
-            ui->operatorsList->addItem(operators[i] + QString("| Ctrl+") + QString::number(i));
+    for(size_t i=0; i<someVector.size(); i++) {
+        if (boost::starts_with(someVector[i].toStdString(), beginning)) {
+            ui->operatorsList->addItem(someVector[i] + QString("| Ctrl+") + QString::number(i));
         }
+    }
+}
+
+void RoopEnvironment::filterOperatorsListBy(QString &currentCommand, QString &lastCommand) {
+    std::string currentCommandString = currentCommand.toStdString();
+    std::string lastCommandString = lastCommand.toStdString();
+    boost::replace_all(currentCommandString, "(", "");
+    boost::replace_all(lastCommandString, "(", "");
+
+    if (lastCommandString == "load") {
+        operatorsAsListWithFilter(images, currentCommandString);
+    } else {
+        operatorsAsListWithFilter(operators, currentCommandString);
     }
 }
 
@@ -73,6 +97,8 @@ void RoopEnvironment::on_roopEditor_textChanged()
     int currentCharacterPosition = cursor.position()-1;
     const int originalBlock = ui->roopEditor->document()->findBlock(currentCharacterPosition).blockNumber();
     QString lastCommand;
+    QString currentCommand;
+    bool slurpedCurrentCommand = false;
     int currentBlock;
 
     while (true) {
@@ -89,19 +115,29 @@ void RoopEnvironment::on_roopEditor_textChanged()
 
 
         if (thisChar == ' ') {
-            break;       
+            if (slurpedCurrentCommand) {
+                break;
+            } else {
+                slurpedCurrentCommand = true;
+            }
         } else {
-            lastCommand.prepend(thisChar);
+            if (!slurpedCurrentCommand) {
+                currentCommand.prepend(thisChar);
+            } else {
+                lastCommand.prepend(thisChar);
+            }
         }
         currentCharacterPosition--;
     }
 
-    filterOperatorsListBy(lastCommand);
-    qDebug() << "Last word = " << lastCommand;
+    qDebug() << "Current word = " << currentCommand << ", Last word = " << lastCommand;
+    filterOperatorsListBy(currentCommand, lastCommand);
 }
 
 void RoopEnvironment::on_roopEditor_cursorPositionChanged()
 {
+    on_roopEditor_textChanged();
+
     const int lineNumber = ui->roopEditor->textCursor().blockNumber();
     if (lineNumber != lastLinePosition) {
         std::ofstream tempFileWriter(TEMP_FILE_NAME);
