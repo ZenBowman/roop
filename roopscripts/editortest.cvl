@@ -1,2 +1,12 @@
 (set penny (load penny.jpg))
 (set gpeny (make-gray penny))
+(scharr gpeny)
+
+(set psamtani (load psamtani.jpg))
+(scharr psamtani)
+
+(blur psamtani 5)
+
+(subtract (blur psamtani 21) psamtani)
+
+

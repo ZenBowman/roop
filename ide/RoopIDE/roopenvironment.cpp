@@ -9,6 +9,7 @@
 #include <QDataStream>
 #include <QChar>
 #include <QDebug>
+#include <QShortcut>
 #include <cstdio>
 #include <unistd.h>
 #include <sstream>
@@ -41,9 +42,10 @@ RoopEnvironment::RoopEnvironment(QWidget *parent) :
 
     loadFile(getLastLoadedFile());
 
-    saveShortCut = new QShortcut(QKeySequence(tr("Ctrl+S", "File|Save")), ui->roopEditor);
+
+    saveShortCut = std::unique_ptr<QShortcut> (new QShortcut(QKeySequence(tr("Ctrl+S", "File|Save")), ui->roopEditor));
     saveShortCut->activated();
-    QObject::connect(saveShortCut, SIGNAL(activated()), this, SLOT(saveCurrentFile()));
+    QObject::connect(saveShortCut.get(), SIGNAL(activated()), this, SLOT(saveCurrentFile()));
 
     DIR *dirp = opendir(IMAGES_DIR.c_str());
     dirent *dp;
@@ -59,21 +61,29 @@ RoopEnvironment::RoopEnvironment(QWidget *parent) :
 
 RoopEnvironment::~RoopEnvironment()
 {
-    if (saveShortCut != 0) {
-        delete saveShortCut;
-    }
     delete ui;
 }
 
 void RoopEnvironment::saveCurrentFile() {
-    qDebug() << "Saving...";
+    if (currentFilename.isEmpty()) {
+        on_actionSave_As_triggered();
+    } else {
+        qDebug() << "Saving to " << currentFilename ;
+        saveToFile(currentFilename, ui->roopEditor->toPlainText());
+    }
 }
 
 void RoopEnvironment::operatorsAsListWithFilter(std::vector<QString> someVector, std::string beginning) {
     ui->operatorsList->clear();
+    int shortcutIndex = 0;
     for(size_t i=0; i<someVector.size(); i++) {
         if (boost::starts_with(someVector[i].toStdString(), beginning)) {
-            ui->operatorsList->addItem(someVector[i] + QString("| Ctrl+") + QString::number(i));
+            QString base = someVector[i];
+            if (shortcutIndex < 10) {
+                base += QString("| Ctrl+") + QString::number(shortcutIndex);
+            }
+            ui->operatorsList->addItem(base);
+            shortcutIndex++;
         }
     }
 }
@@ -170,22 +180,13 @@ void RoopEnvironment::on_actionSave_As_triggered()
 {
     QString fileName = QFileDialog::getSaveFileName(this, tr("Save File As"), SCRIPTS_DIR.c_str(),
                                                     tr("CVL files (*.cvl)"));
-    if (fileName != "") {
-        QFile file(fileName);
-        if (!file.open(QIODevice::WriteOnly)) {
-         // error message
-        }
-        else {
-            QTextStream stream(&file);
-            stream << ui->roopEditor->toPlainText();
-            stream.flush();
-            file.close();
-        }
-    }
+
+    saveToFile(fileName, ui->roopEditor->toPlainText());
 }
 
 void RoopEnvironment::loadFile(const QString &fileName) {
     if (fileName != "") {
+        currentFilename = fileName;
         QFile file(fileName);
         if (!file.open(QIODevice::ReadOnly)) {
             QMessageBox::critical(this, tr("Error"), tr("Could not open file"));

@@ -5,6 +5,7 @@
 #include "roopsyntaxhighlighter.h"
 #include <vector>
 #include <QShortcut>
+#include <memory>
 
 namespace Ui {
 class RoopEnvironment;
@@ -40,7 +41,9 @@ private:
     void loadFile(const QString& fileName);
     void operatorsAsListWithFilter(std::vector<QString> someVector, std::string beginning);
 
-    QShortcut *saveShortCut;
+    std::unique_ptr<QShortcut> saveShortCut;
+
+    QString currentFilename;
 };
 
 #endif // ROOPENVIRONMENT_H

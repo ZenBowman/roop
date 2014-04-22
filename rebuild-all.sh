@@ -6,6 +6,7 @@ rm -rf build
 rm -rf debug
 rm -rf release
 rm -rf xcode-build
+rm -rf eclipse-project
 
 mkdir debug
 cd debug

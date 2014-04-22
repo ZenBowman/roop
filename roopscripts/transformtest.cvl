@@ -6,5 +6,7 @@
 ;; Define function - limitation for now is that a function must be defined on one line
 (deftransform open ?x ?y (erode (dilate ?x ?y ellipse) ?y ellipse))
 
+(get bfmask)
+
 (open bfmask 40)
 (display)

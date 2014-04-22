@@ -5,6 +5,7 @@
 #include <fstream>
 
 #include <QDebug>
+#include <QFile>
 
 namespace Roop {
 
@@ -45,4 +46,21 @@ namespace Roop {
         writer << fileName.toStdString();
         writer.close();
     }
+
+    int saveToFile(QString fileName, QString text) {
+        if (fileName != "") {
+            QFile file(fileName);
+            if (!file.open(QIODevice::WriteOnly)) {
+                return -1;
+            }
+            else {
+                QTextStream stream(&file);
+                stream << text;
+                stream.flush();
+                file.close();
+            }
+        }
+        return 0;
+    }
+
 }

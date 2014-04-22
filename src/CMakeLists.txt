@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8)
 
+SET (CMAKE_C_COMPILER  "clang")
+SET (CMAKE_CXX_COMPILER  "clang++")
 set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake_modules")
 set(LIBSEXP_SRC thirdparty/sexpr-1.2.1/)
 set(SCHEME_SRC thirdparty/tinyscheme-1.41/)
@@ -55,7 +57,9 @@ add_executable( Roop
 include_directories(${LIBSEXP_SRC} ${SCHEME_SRC})
 
 if(CMAKE_COMPILER_IS_GNUCXX)
-    add_definitions(-std=gnu++0x)
+  add_definitions(-std=gnu++0x)
+else()
+  add_definitions(-std=c++11)
 endif()
 
 target_link_libraries(Roop
@@ -64,4 +68,5 @@ target_link_libraries(Roop
   ${Readline_LIBRARY}
   sexpr
   tinyscheme
+  m
 )

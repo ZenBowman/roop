@@ -26,3 +26,4 @@ HEADERS  += roopenvironment.h \
     roopcommon.h
 
 FORMS    += roopenvironment.ui
+QMAKE_CXXFLAGS += -std=c++11

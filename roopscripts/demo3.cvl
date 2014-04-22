@@ -10,6 +10,8 @@
 (set opened-lena (dilate (erode (get lena) 5 3) 5 3))
 (display)
 (set closed-lena (erode (dilate (get lena) 5 3) 5 3))
+(canny lena 40)
+
 (display)
 (set grey-lena (make-gray (get lena)))
 (display)
