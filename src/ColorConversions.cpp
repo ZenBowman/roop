@@ -6,14 +6,14 @@ using namespace cv;
 RoopList ToGrayScale::execute(RoopMachine &machine, RoopList arguments) {
   Mat result;
   Mat image = arguments[0].resultMat;
-  cvtColor(image, result, CV_RGB2GRAY);
+  cvtColor(image, result, COLOR_RGB2GRAY);
   return fromMatrix(result);
 }
 
 RoopList ToColor::execute(RoopMachine &machine, RoopList arguments) {
   Mat result;
   Mat image = arguments[0].resultMat;
-  cvtColor(image, result, CV_GRAY2RGB);
+  cvtColor(image, result, COLOR_GRAY2RGB);
   return fromMatrix(result);
 }
 

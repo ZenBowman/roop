@@ -15,7 +15,7 @@ RoopList CannyOperator::execute(RoopMachine &machine, RoopList arguments) {
 
   //  std::cout << "Applying canny with low threshold =" << low_threshold
   //	    << std::endl;
-  cvtColor(src, src_gray, CV_BGR2GRAY);
+  cvtColor(src, src_gray, COLOR_BGR2GRAY);
   blur( src_gray, detected_edges, Size(3,3) );
 
   Canny(detected_edges, detected_edges, 

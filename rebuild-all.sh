@@ -20,16 +20,8 @@ cmake ../src -G "Unix Makefiles" -DCMAKE_BUILD_TYPE=Release
 make
 cd ..
 
-if [ $OS == "darwin" ]
-then
-    mkdir xcode-project
-    cd xcode-project
-    cmake ../src -G Xcode
-    cd ..
-else
-    mkdir eclipse-project
-    cd eclipse-project
-    cmake ../src -G "Eclipse CDT4 - Unix Makefiles" 
-    cd ..
-fi
+mkdir xcode-project
+cd xcode-project
+cmake ../src -G Xcode
+cd ..
 

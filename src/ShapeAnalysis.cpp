@@ -1,7 +1,9 @@
 #include "ExecutableCommand.h"
 #include <list>
+#include <vector>
 
 using namespace cv;
+using std::vector;
 
 RoopList GetMoments::execute(RoopMachine &machine, RoopList arguments) {
   RoopList result;
@@ -30,7 +32,7 @@ RoopList GetArea::execute(RoopMachine &machine, RoopList arguments) {
   std::list<double> sortedAreas;
 
   findContours(image, contours, hierarchy,
-	       CV_RETR_CCOMP, CV_CHAIN_APPROX_SIMPLE);
+	       RETR_CCOMP, CHAIN_APPROX_SIMPLE);
 
   for (int i=0; i<contours.size(); i++) {
     sortedAreas.push_back(contourArea(contours[i]));

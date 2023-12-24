@@ -54,13 +54,8 @@ add_executable( Roop
   ForEachPixel.cpp
 )
 
-include_directories(${LIBSEXP_SRC} ${SCHEME_SRC})
+include_directories(${LIBSEXP_SRC} ${SCHEME_SRC} ${Boost_INCLUDE_DIRS})
 
-if(CMAKE_COMPILER_IS_GNUCXX)
-  add_definitions(-std=gnu++0x)
-else()
-  add_definitions(-std=c++11)
-endif()
 
 target_link_libraries(Roop
   ${OpenCV_LIBS} 
