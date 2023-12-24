@@ -6,3 +6,4 @@ eclipse-project
 *~
 build-RoopIDE-*
 *.pro.user.*
+CMakeFiles
